@@ -136,6 +136,12 @@ namespace SpracheBinary
         /// Parse any character.
         /// </summary>
         public static readonly Parser<byte> AnyByte = Byte(c => true, "any character");
+        public static Parser<byte> Seek(int Position) {
+            return i => {
+                i.Seek(Position);
+                return Result.Success<byte>(0, i);
+            };
+        }
 
         //public static readonly Parser<DateTime> DateTime = from ticks in Int64
         //                                                   select new DateTime(ticks);

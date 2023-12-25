@@ -89,6 +89,14 @@ namespace SpracheBinary
         public int Position { get { return _position; } }
 
         /// <summary>
+        /// Seeks to the specified position.
+        /// </summary>
+        public void Seek(int position)
+        {
+            _source.Seek(position, SeekOrigin.Begin);
+        }
+
+        /// <summary>
         /// Returns a string that represents the current object.
         /// </summary>
         /// <returns>

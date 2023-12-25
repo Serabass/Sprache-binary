@@ -37,6 +37,11 @@ namespace SpracheBinary
         int Position { get; }
 
         /// <summary>
+        /// Seeks to the specified position.
+        /// </summary>
+        void Seek(int position);
+
+        /// <summary>
         /// Memos used by this input
         /// </summary>
         IDictionary<object, object> Memos { get; }
