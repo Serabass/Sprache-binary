@@ -132,13 +132,13 @@ namespace SpracheBinary.Tests.GXT
       };
 
     public static Parser<char> WChar =
-      from b1 in Parse.AnyByte.Except(Parse.Byte(0x00))
-      from b2 in Parse.Byte(0x00)
+      from b1 in Parse.AnyByte.Except(Parse.NUL)
+      from b2 in Parse.NUL
       select (char)b1;
 
     public static Parser<string> GXTString =
       from c1 in WChar.Many().Text()
-      from c2 in Parse.Byte(0x00).Many()
+      from c2 in Parse.NUL.Many()
       select c1.TrimEnd('\0');
 
     public static Parser<TDATBlock> Tdat =
@@ -160,7 +160,7 @@ namespace SpracheBinary.Tests.GXT
         Name = Name,
       };
 
-    public static Parser<TKEYTable> TKEyTables =
+    public static Parser<TKEYTable> TKEyTable =
       from Name in String8
       from tkeyConst in Parse.ConstString("TKEY")
       from tkeySize in Parse.Int32
@@ -180,7 +180,7 @@ namespace SpracheBinary.Tests.GXT
       from TABL in Tabl
       from TKEY in Tkey
       from TDAT in Tdat
-      from keys in TKEyTables.Many()
+      from keys in TKEyTable.Many()
 
       select new GXTDocument
       {

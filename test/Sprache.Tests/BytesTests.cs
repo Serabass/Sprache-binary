@@ -27,6 +27,5 @@ namespace SpracheBinary.Tests
 
             Assert.Equal(2, parser.Parse(new byte[] { 0, 1, 2, 3, 4 }));
         }
-
     }
 }
