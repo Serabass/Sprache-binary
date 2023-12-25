@@ -36,7 +36,7 @@ namespace SpracheBinary
         {
         }
 
-        internal Input(Stream source, int position, int line = 1, int column = 1)
+        internal Input(Stream source, int position)
         {
             _source = source;
             _position = position;
@@ -44,8 +44,8 @@ namespace SpracheBinary
             Memos = new Dictionary<object, object>();
         }
 
-        internal Input(byte[] bytes, int position, int line = 1, int column = 1)
-            : this(new MemoryStream(bytes), position, line, column) {}
+        internal Input(byte[] bytes, int position)
+            : this(new MemoryStream(bytes), position) { }
 
         /// <summary>
         /// Advances the input.
@@ -68,7 +68,15 @@ namespace SpracheBinary
         /// <summary>
         /// Gets the current <see cref="System.Byte" />.
         /// </summary>
-        public byte Current { get { return (byte)_source.ReadByte(); } }
+        public byte Current
+        {
+            get
+            {
+                // костыль
+                _source.Seek(_position, SeekOrigin.Begin);
+                return (byte)_source.ReadByte();
+            }
+        }
 
         /// <summary>
         /// Gets a value indicating whether the end of the source is reached.
@@ -128,7 +136,9 @@ namespace SpracheBinary
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;
-            return string.Equals(_source, other.Source) && _position == other.Position;
+
+            // TODO Это костыль, надо сделать нормально
+            return _position == other.Position && _source.Length == other.Source.Length && _source.Position == other.Source.Position;
         }
 
         /// <summary>

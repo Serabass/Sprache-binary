@@ -71,6 +71,8 @@ namespace SpracheBinary.Tests
                          from b in Parse.Int16
                          select new { A = a, B = b };
 
+            memoryStream.Position = 0;
+
             var result = parser.Parse(memoryStream);
 
             Assert.Equal(1234, result.A);
@@ -89,6 +91,8 @@ namespace SpracheBinary.Tests
             var parser = from a in Parse.UInt16
                          from b in Parse.UInt16
                          select new { A = a, B = b };
+
+            memoryStream.Position = 0;
 
             var result = parser.Parse(memoryStream);
 
@@ -109,6 +113,8 @@ namespace SpracheBinary.Tests
                          from b in Parse.Int32
                          select new { A = a, B = b };
 
+            memoryStream.Position = 0;
+
             var result = parser.Parse(memoryStream);
 
             Assert.Equal(1234, result.A);
@@ -127,6 +133,8 @@ namespace SpracheBinary.Tests
             var parser = from a in Parse.UInt32
                          from b in Parse.UInt32
                          select new { A = a, B = b };
+
+            memoryStream.Position = 0;
 
             var result = parser.Parse(memoryStream);
 
@@ -147,6 +155,8 @@ namespace SpracheBinary.Tests
                          from b in Parse.Single
                          select new { A = a, B = b };
 
+            memoryStream.Position = 0;
+
             var result = parser.Parse(memoryStream);
 
             Assert.Equal(1.0f, result.A);
@@ -165,6 +175,8 @@ namespace SpracheBinary.Tests
             var parser = from a in Parse.Double
                          from b in Parse.Double
                          select new { A = a, B = b };
+
+            memoryStream.Position = 0;
 
             var result = parser.Parse(memoryStream);
 
@@ -188,6 +200,8 @@ namespace SpracheBinary.Tests
             var parser = from length in Parse.Int32
                          select new { Length = length };
 
+            memoryStream.Position = 0;
+
             var result = parser.Parse(memoryStream);
 
             Assert.Equal("Hello", "Hello");
@@ -205,6 +219,8 @@ namespace SpracheBinary.Tests
             writer.Write((byte)'o');
             writer.Write((byte)0);
             writer.Flush();
+
+            memoryStream.Position = 0;
 
             var parser = Parse.StringZeroTerminated;
             var result = parser.Parse(memoryStream);
