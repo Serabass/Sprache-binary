@@ -10,26 +10,31 @@ namespace Sprache
         ///<summary>
         ///Single-line comment header.
         ///</summary>
+        [System.Obsolete("Don't need this anymore")]
         public string Single { get; set; }
 
         ///<summary>
         ///Newline character preference.
         ///</summary>
+        [System.Obsolete("Don't need this anymore")]
         public string NewLine { get; set; }
 
         ///<summary>
         ///Multi-line comment opener.
         ///</summary>
+        [System.Obsolete("Don't need this anymore")]
         public string MultiOpen { get; set; }
 
         ///<summary>
         ///Multi-line comment closer.
         ///</summary>
+        [System.Obsolete("Don't need this anymore")]
         public string MultiClose { get; set; }
 
         /// <summary>
         /// Initializes a Comment with C-style headers and Windows newlines.
         /// </summary>
+        [System.Obsolete("Don't need this anymore")]
         public CommentParser()
         {
             Single = "//";
@@ -45,6 +50,7 @@ namespace Sprache
         /// <param name="multiOpen"></param>
         /// <param name="multiClose"></param>
         /// <param name="newLine"></param>
+        [System.Obsolete("Don't need this anymore")]
         public CommentParser(string multiOpen, string multiClose, string newLine)
         {
             Single = null;
@@ -53,34 +59,15 @@ namespace Sprache
             NewLine = newLine;
         }
 
-        /// <summary>
-        /// Initializes a Comment with custom headers and newline characters.
-        /// </summary>
-        /// <param name="single"></param>
-        /// <param name="multiOpen"></param>
-        /// <param name="multiClose"></param>
-        /// <param name="newLine"></param>
-        public CommentParser(string single, string multiOpen, string multiClose, string newLine)
-        {
-            Single = single;
-            MultiOpen = multiOpen;
-            MultiClose = multiClose;
-            NewLine = newLine;
-        }
-
         ///<summary>
         ///Parse a single-line comment.
         ///</summary>
+        [System.Obsolete("Don't need this anymore")]
         public Parser<string> SingleLineComment
         {
             get
             {
-                if (Single == null)
-                    throw new ParseException("Field 'Single' is null; single-line comments not allowed.");
-
-                return from first in Parse.String(Single)
-                       from rest in Parse.CharExcept(NewLine).Many().Text()
-                       select rest;
+                throw new System.NotImplementedException();
             }
             private set { }
         }
@@ -88,19 +75,12 @@ namespace Sprache
         ///<summary>
         ///Parse a multi-line comment.
         ///</summary>
+        [System.Obsolete("Don't need this anymore")]
         public Parser<string> MultiLineComment
         {
             get
             {
-                if (MultiOpen == null)
-                    throw new ParseException("Field 'MultiOpen' is null; multi-line comments not allowed.");
-                else if (MultiClose == null)
-                    throw new ParseException("Field 'MultiClose' is null; multi-line comments not allowed.");
-
-                return from first in Parse.String(MultiOpen)
-                       from rest in Parse.AnyChar
-                                    .Until(Parse.String(MultiClose)).Text()
-                       select rest;
+                throw new System.NotImplementedException();
             }
             private set { }
         }
@@ -108,17 +88,12 @@ namespace Sprache
         ///<summary>
         ///Parse a comment.
         ///</summary>
+        [System.Obsolete("Don't need this anymore")]
         public Parser<string> AnyComment
         {
             get
             {
-                if (Single != null && MultiOpen != null && MultiClose != null)
-                    return SingleLineComment.Or(MultiLineComment);
-                else if (Single != null && (MultiOpen == null || MultiClose == null))
-                    return SingleLineComment;
-                else if (Single == null && (MultiOpen != null && MultiClose != null))
-                    return MultiLineComment;
-                else throw new ParseException("Unable to parse comment; check values of fields 'MultiOpen' and 'MultiClose'.");
+                throw new System.NotImplementedException();
             }
             private set { }
         }

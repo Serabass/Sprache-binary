@@ -97,15 +97,7 @@ namespace Sprache
 
         private string CalculateRecentlyConsumed()
         {
-            const int windowSize = 10;
-
-            var totalConsumedChars = Remainder.Position;
-            var windowStart = totalConsumedChars - windowSize;
-            windowStart = windowStart < 0 ? 0 : windowStart;
-
-            var numberOfRecentlyConsumedChars = totalConsumedChars - windowStart;
-
-            return Remainder.Source.Substring(windowStart, numberOfRecentlyConsumedChars);
+            throw new NotImplementedException();
         }
     }
 }

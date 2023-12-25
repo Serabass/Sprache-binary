@@ -74,7 +74,7 @@ namespace Sprache
         /// </summary>
         /// <param name="c"></param>
         /// <returns></returns>
-        public static Parser<byte> Chars(params byte[] c)
+        public static Parser<byte> Bytes(params byte[] c)
         {
             return Byte(c.Contains, StringExtensions.Join("|", c));
         }
@@ -133,63 +133,21 @@ namespace Sprache
         }
 
         /// <summary>
-        /// Parse a string in a case-insensitive fashion.
-        /// </summary>
-        /// <param name="s"></param>
-        /// <returns></returns>
-        [Obsolete("Don't need this anymore")]
-        public static Parser<IEnumerable<byte>> IgnoreCase(IEnumerable<byte> s)
-        {
-            if (s == null) throw new ArgumentNullException(nameof(s));
-
-            return s
-                .ToEnumerable()
-                .Select(IgnoreCase)
-                .Aggregate(Return(Enumerable.Empty<char>()),
-                    (a, p) => a.Concat(p.Once()))
-                .Named(s);
-        }
-
-        /// <summary>
         /// Parse any character.
         /// </summary>
         public static readonly Parser<byte> AnyByte = Byte(c => true, "any character");
 
         /// <summary>
-        /// Parse a whitespace.
-        /// </summary>
-        [Obsolete("Don't need this anymore")]
-        public static readonly Parser<char> WhiteSpace = Byte(char.IsWhiteSpace, "whitespace");
-
-        /// <summary>
-        /// Parse a digit.
-        /// </summary>
-        [Obsolete("Don't need this anymore")]
-        public static readonly Parser<char> Digit = Byte(char.IsDigit, "digit");
-
-        /// <summary>
         /// Parse a letter.
         /// </summary>
         [Obsolete("Don't need this anymore")]
-        public static readonly Parser<char> Letter = Byte(char.IsLetter, "letter");
+        public static readonly Parser<byte> Letter = Byte(ch => char.IsLetter((char)ch), "letter");
 
         /// <summary>
         /// Parse a letter or digit.
         /// </summary>
         [Obsolete("Don't need this anymore")]
-        public static readonly Parser<char> LetterOrDigit = Byte(char.IsLetterOrDigit, "letter or digit");
-
-        /// <summary>
-        /// Parse a lowercase letter.
-        /// </summary>
-        [Obsolete("Don't need this anymore")]
-        public static readonly Parser<char> Lower = Byte(char.IsLower, "lowercase letter");
-
-        /// <summary>
-        /// Parse an uppercase letter.
-        /// </summary>
-        [Obsolete("Don't need this anymore")]
-        public static readonly Parser<char> Upper = Byte(char.IsUpper, "uppercase letter");
+        public static readonly Parser<byte> LetterOrDigit = Byte(ch => char.IsLetterOrDigit((char)ch), "letter or digit");
 
         /// <summary>
         /// Parse a numeric character.
@@ -375,12 +333,7 @@ namespace Sprache
         /// <returns></returns>
         public static Parser<T> Token<T>(this Parser<T> parser)
         {
-            if (parser == null) throw new ArgumentNullException(nameof(parser));
-
-            return from leading in WhiteSpace.Many()
-                   from item in parser
-                   from trailing in WhiteSpace.Many()
-                   select item;
+            throw new NotImplementedException();
         }
 
         /// <summary>
@@ -762,11 +715,6 @@ namespace Sprache
                       Return(lastOperand));
         }
 
-        /// <summary>
-        /// Parse a number.
-        /// </summary>
-        public static readonly Parser<IEnumerable<byte>> Number = Numeric.AtLeastOnce().Text();
-
         [Obsolete("Don't need this anymore")]
         static Parser<IEnumerable<byte>> DecimalWithoutLeadingDigits(CultureInfo ci = null)
         {
@@ -784,12 +732,5 @@ namespace Sprache
         /// </summary>
         [Obsolete("Don't need this anymore")]
         public static readonly Parser<IEnumerable<byte>> Decimal = DecimalWithLeadingDigits().XOr(DecimalWithoutLeadingDigits());
-
-        /// <summary>
-        /// Parse a decimal number with separator '.'.
-        /// </summary>
-        [Obsolete("Don't need this anymore")]
-        public static readonly Parser<IEnumerable<byte>> DecimalInvariant = DecimalWithLeadingDigits(CultureInfo.InvariantCulture)
-                                                                     .XOr(DecimalWithoutLeadingDigits(CultureInfo.InvariantCulture));
     }
 }

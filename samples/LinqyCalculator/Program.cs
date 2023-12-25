@@ -3,26 +3,12 @@ using Sprache;
 
 namespace LinqyCalculator
 {
+    [Obsolete("Don't use this")]
     class Program
     {
         static void Main()
         {
-            var line = "";
-            while (Prompt(out line))
-            {
-                try
-                {
-                    var parsed = ExpressionParser.ParseExpression(line);
-                    Console.WriteLine("Parsed as {0}", parsed);
-                    Console.WriteLine("Value is {0}", parsed.Compile()());
-                }
-                catch (ParseException ex)
-                {
-                    Console.WriteLine("There was a problem with your input: {0}", ex.Message);
-                }
-
-                Console.WriteLine();
-            }
+            
         }
 
         static bool Prompt(out string value)
