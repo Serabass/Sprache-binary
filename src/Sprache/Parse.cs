@@ -703,23 +703,5 @@ namespace SpracheBinary
                                 Return(apply(opValue, lastOperand, r)))),
                       Return(lastOperand));
         }
-
-        [Obsolete("Don't need this anymore")]
-        static Parser<IEnumerable<byte>> DecimalWithoutLeadingDigits(CultureInfo ci = null)
-        {
-            throw new NotImplementedException();
-        }
-
-        [Obsolete("Don't need this anymore")]
-        static Parser<IEnumerable<byte>> DecimalWithLeadingDigits(CultureInfo ci = null)
-        {
-            throw new NotImplementedException();
-        }
-
-        /// <summary>
-        /// Parse a decimal number using the current culture's separator character.
-        /// </summary>
-        // [Obsolete("Don't need this anymore")]
-        // public static readonly Parser<IEnumerable<byte>> Decimal = DecimalWithLeadingDigits().XOr(DecimalWithoutLeadingDigits());
     }
 }

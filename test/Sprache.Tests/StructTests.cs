@@ -270,6 +270,7 @@ namespace SpracheBinary.Tests
                          from i32 in Parse.Int32
                          from s in Parse.StringZeroTerminated
                          select new { B = b, I16 = i16, I32 = i32, S = s };
+
             var result = parser.Parse(memoryStream);
 
             Assert.Equal(255, result.B);
