@@ -3,6 +3,7 @@
     /// <summary>
     /// Represents a customizable comment parser.
     /// </summary>
+    [System.Obsolete("Don't need this anymore")]
     public interface IComment
     {
         ///<summary>

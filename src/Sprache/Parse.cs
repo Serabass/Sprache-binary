@@ -24,7 +24,7 @@ namespace Sprache
         /// <param name="predicate"></param>
         /// <param name="description"></param>
         /// <returns></returns>
-        public static Parser<char> Char(Predicate<char> predicate, string description)
+        public static Parser<byte> Byte(Predicate<byte> predicate, string description)
         {
             if (predicate == null) throw new ArgumentNullException(nameof(predicate));
             if (description == null) throw new ArgumentNullException(nameof(description));
@@ -36,12 +36,12 @@ namespace Sprache
                     if (predicate(i.Current))
                         return Result.Success(i.Current, i.Advance());
 
-                    return Result.Failure<char>(i,
+                    return Result.Failure<byte>(i,
                         $"unexpected '{i.Current}'",
                         new[] { description });
                 }
 
-                return Result.Failure<char>(i,
+                return Result.Failure<byte>(i,
                     "Unexpected end of input reached",
                     new[] { description });
             };
@@ -53,9 +53,9 @@ namespace Sprache
         /// <param name="predicate">Characters not to match.</param>
         /// <param name="description">Description of characters that don't match.</param>
         /// <returns>A parser for characters except those matching <paramref name="predicate"/>.</returns>
-        public static Parser<char> CharExcept(Predicate<char> predicate, string description)
+        public static Parser<byte> ByteExcept(Predicate<byte> predicate, string description)
         {
-            return Char(c => !predicate(c), "any character except " + description);
+            return Byte(c => !predicate(c), "any character except " + description);
         }
 
         /// <summary>
@@ -63,9 +63,9 @@ namespace Sprache
         /// </summary>
         /// <param name="c"></param>
         /// <returns></returns>
-        public static Parser<char> Char(char c)
+        public static Parser<byte> Byte(byte c)
         {
-            return Char(ch => c == ch, char.ToString(c));
+            return Byte(ch => c == ch, c.ToString());
         }
 
 
@@ -74,9 +74,9 @@ namespace Sprache
         /// </summary>
         /// <param name="c"></param>
         /// <returns></returns>
-        public static Parser<char> Chars(params char[] c)
+        public static Parser<byte> Chars(params byte[] c)
         {
-            return Char(c.Contains, StringExtensions.Join("|", c));
+            return Byte(c.Contains, StringExtensions.Join("|", c));
         }
 
         /// <summary>
@@ -84,9 +84,9 @@ namespace Sprache
         /// </summary>
         /// <param name="c"></param>
         /// <returns></returns>
-        public static Parser<char> Chars(string c)
+        public static Parser<byte> Bytes(IEnumerable<byte> c)
         {
-            return Char(c.ToEnumerable().Contains, StringExtensions.Join("|", c.ToEnumerable()));
+            return Byte(c.Contains, StringExtensions.Join("|", c));
         }
 
 
@@ -95,9 +95,9 @@ namespace Sprache
         /// </summary>
         /// <param name="c"></param>
         /// <returns></returns>
-        public static Parser<char> CharExcept(char c)
+        public static Parser<byte> CharExcept(byte c)
         {
-            return CharExcept(ch => c == ch, char.ToString(c));
+            return ByteExcept(ch => c == ch, c.ToString());
         }
 
         /// <summary>
@@ -105,10 +105,10 @@ namespace Sprache
         /// </summary>
         /// <param name="c"></param>
         /// <returns></returns>
-        public static Parser<char> CharExcept(IEnumerable<char> c)
+        public static Parser<byte> CharExcept(IEnumerable<byte> c)
         {
-            var chars = c as char[] ?? c.ToArray();
-            return CharExcept(chars.Contains, StringExtensions.Join("|", chars));
+            var chars = c as byte[] ?? c.ToArray();
+            return ByteExcept(chars.Contains, StringExtensions.Join("|", chars));
         }
 
         /// <summary>
@@ -116,9 +116,9 @@ namespace Sprache
         /// </summary>
         /// <param name="c"></param>
         /// <returns></returns>
-        public static Parser<char> CharExcept(string c)
+        public static Parser<byte> ByteExcept(IEnumerable<byte> c)
         {
-            return CharExcept(c.ToEnumerable().Contains, StringExtensions.Join("|", c.ToEnumerable()));
+            return ByteExcept(c.Contains, StringExtensions.Join("|", c));
         }
 
         /// <summary>
@@ -126,9 +126,10 @@ namespace Sprache
         /// </summary>
         /// <param name="c"></param>
         /// <returns></returns>
-        public static Parser<char> IgnoreCase(char c)
+        [Obsolete("Don't need this anymore")]
+        public static Parser<byte> IgnoreCase(byte c)
         {
-            return Char(ch => char.ToLower(c) == char.ToLower(ch), char.ToString(c));
+            throw new NotImplementedException();
         }
 
         /// <summary>
@@ -136,7 +137,8 @@ namespace Sprache
         /// </summary>
         /// <param name="s"></param>
         /// <returns></returns>
-        public static Parser<IEnumerable<char>> IgnoreCase(string s)
+        [Obsolete("Don't need this anymore")]
+        public static Parser<IEnumerable<byte>> IgnoreCase(IEnumerable<byte> s)
         {
             if (s == null) throw new ArgumentNullException(nameof(s));
 
@@ -151,58 +153,61 @@ namespace Sprache
         /// <summary>
         /// Parse any character.
         /// </summary>
-        public static readonly Parser<char> AnyChar = Char(c => true, "any character");
+        public static readonly Parser<byte> AnyByte = Byte(c => true, "any character");
 
         /// <summary>
         /// Parse a whitespace.
         /// </summary>
-        public static readonly Parser<char> WhiteSpace = Char(char.IsWhiteSpace, "whitespace");
+        [Obsolete("Don't need this anymore")]
+        public static readonly Parser<char> WhiteSpace = Byte(char.IsWhiteSpace, "whitespace");
 
         /// <summary>
         /// Parse a digit.
         /// </summary>
-        public static readonly Parser<char> Digit = Char(char.IsDigit, "digit");
+        [Obsolete("Don't need this anymore")]
+        public static readonly Parser<char> Digit = Byte(char.IsDigit, "digit");
 
         /// <summary>
         /// Parse a letter.
         /// </summary>
-        public static readonly Parser<char> Letter = Char(char.IsLetter, "letter");
+        [Obsolete("Don't need this anymore")]
+        public static readonly Parser<char> Letter = Byte(char.IsLetter, "letter");
 
         /// <summary>
         /// Parse a letter or digit.
         /// </summary>
-        public static readonly Parser<char> LetterOrDigit = Char(char.IsLetterOrDigit, "letter or digit");
+        [Obsolete("Don't need this anymore")]
+        public static readonly Parser<char> LetterOrDigit = Byte(char.IsLetterOrDigit, "letter or digit");
 
         /// <summary>
         /// Parse a lowercase letter.
         /// </summary>
-        public static readonly Parser<char> Lower = Char(char.IsLower, "lowercase letter");
+        [Obsolete("Don't need this anymore")]
+        public static readonly Parser<char> Lower = Byte(char.IsLower, "lowercase letter");
 
         /// <summary>
         /// Parse an uppercase letter.
         /// </summary>
-        public static readonly Parser<char> Upper = Char(char.IsUpper, "uppercase letter");
+        [Obsolete("Don't need this anymore")]
+        public static readonly Parser<char> Upper = Byte(char.IsUpper, "uppercase letter");
 
         /// <summary>
         /// Parse a numeric character.
         /// </summary>
-        public static readonly Parser<char> Numeric = Char(char.IsNumber, "numeric character");
+        [Obsolete("Don't need this anymore")]
+        public static readonly Parser<byte> Numeric = Byte(
+            ch => char.IsDigit((char)ch) || ch == '.' || ch == '-' || ch == '+'
+            , "numeric character");
 
         /// <summary>
         /// Parse a string of characters.
         /// </summary>
         /// <param name="s"></param>
         /// <returns></returns>
-        public static Parser<IEnumerable<char>> String(string s)
+        [Obsolete("Don't need this anymore")]
+        public static Parser<IEnumerable<byte>> String(IEnumerable<byte> s)
         {
-            if (s == null) throw new ArgumentNullException(nameof(s));
-
-            return s
-                .ToEnumerable()
-                .Select(Char)
-                .Aggregate(Return(Enumerable.Empty<char>()),
-                    (a, p) => a.Concat(p.Once()))
-                .Named(s);
+            throw new NotImplementedException();
         }
 
         /// <summary>
@@ -760,31 +765,31 @@ namespace Sprache
         /// <summary>
         /// Parse a number.
         /// </summary>
-        public static readonly Parser<string> Number = Numeric.AtLeastOnce().Text();
+        public static readonly Parser<IEnumerable<byte>> Number = Numeric.AtLeastOnce().Text();
 
-        static Parser<string> DecimalWithoutLeadingDigits(CultureInfo ci = null)
+        [Obsolete("Don't need this anymore")]
+        static Parser<IEnumerable<byte>> DecimalWithoutLeadingDigits(CultureInfo ci = null)
         {
-            return from nothing in Return("")
-                   // dummy so that CultureInfo.CurrentCulture is evaluated later
-                   from dot in String((ci ?? CultureInfo.CurrentCulture).NumberFormat.NumberDecimalSeparator).Text()
-                   from fraction in Number
-                   select dot + fraction;
+            throw new NotImplementedException();
         }
 
-        static Parser<string> DecimalWithLeadingDigits(CultureInfo ci = null)
+        [Obsolete("Don't need this anymore")]
+        static Parser<IEnumerable<byte>> DecimalWithLeadingDigits(CultureInfo ci = null)
         {
-            return Number.Then(n => DecimalWithoutLeadingDigits(ci).XOr(Return("")).Select(f => n + f));
+            throw new NotImplementedException();
         }
 
         /// <summary>
         /// Parse a decimal number using the current culture's separator character.
         /// </summary>
-        public static readonly Parser<string> Decimal = DecimalWithLeadingDigits().XOr(DecimalWithoutLeadingDigits());
+        [Obsolete("Don't need this anymore")]
+        public static readonly Parser<IEnumerable<byte>> Decimal = DecimalWithLeadingDigits().XOr(DecimalWithoutLeadingDigits());
 
         /// <summary>
         /// Parse a decimal number with separator '.'.
         /// </summary>
-        public static readonly Parser<string> DecimalInvariant = DecimalWithLeadingDigits(CultureInfo.InvariantCulture)
+        [Obsolete("Don't need this anymore")]
+        public static readonly Parser<IEnumerable<byte>> DecimalInvariant = DecimalWithLeadingDigits(CultureInfo.InvariantCulture)
                                                                      .XOr(DecimalWithoutLeadingDigits(CultureInfo.InvariantCulture));
     }
 }

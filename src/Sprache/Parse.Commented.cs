@@ -90,6 +90,7 @@ namespace Sprache
         /// <param name="parser">The parser to wrap.</param>
         /// <param name="commentParser">The comment parser.</param>
         /// <returns>An extended Token() version of the given parser.</returns>
+        [Obsolete("Don't need this anymore")]
         public static Parser<ICommented<T>> Commented<T>(this Parser<T> parser, IComment commentParser = null)
         {
             if (parser == null) throw new ArgumentNullException(nameof(parser));

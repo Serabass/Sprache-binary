@@ -570,6 +570,7 @@ namespace Sprache.Tests
         }
 
         [Fact]
+        [System.Obsolete("Don't need this anymore")]
         public void CommentedParserConsumesWhiteSpaceLikeTokenParserAndAddsLeadingAndTrailingComments()
         {
             var parser = Parse.Identifier(Parse.Letter, Parse.LetterOrDigit).Commented();

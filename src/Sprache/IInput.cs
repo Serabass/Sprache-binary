@@ -18,12 +18,12 @@ namespace Sprache
         /// <summary>
         /// Gets the whole source.
         /// </summary>
-        string Source { get; }
+        IEnumerable<byte> Source { get; }
 
         /// <summary>
         /// Gets the current <see cref="System.Char" />.
         /// </summary>
-        char Current { get; }
+        byte Current { get; }
 
         /// <summary>
         /// Gets a value indicating whether the end of the source is reached.
@@ -38,11 +38,13 @@ namespace Sprache
         /// <summary>
         /// Gets the current line number.
         /// </summary>
+        [Obsolete("Don't need this anymore")]
         int Line { get; }
 
         /// <summary>
         /// Gets the current column.
         /// </summary>
+        [Obsolete("Don't need this anymore")]
         int Column { get; }
 
         /// <summary>

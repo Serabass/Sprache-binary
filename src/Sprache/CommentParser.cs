@@ -1,8 +1,10 @@
-﻿namespace Sprache
+﻿
+namespace Sprache
 {
     /// <summary>
     /// Constructs customizable comment parsers.
     /// </summary>
+    [System.Obsolete("Don't need this anymore")]
     public class CommentParser : IComment
     {
         ///<summary>
