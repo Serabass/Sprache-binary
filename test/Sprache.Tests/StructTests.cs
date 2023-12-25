@@ -213,14 +213,15 @@ namespace SpracheBinary.Tests
             writer.Write((byte)'o');
             writer.Flush();
 
-            var parser = from length in Parse.Int32
-                         select new { Length = length };
+            var parser = from value in Parse.String
+                         select value;
 
             memoryStream.Position = 0;
 
             var result = parser.Parse(memoryStream);
 
-            Assert.Equal("Hello", "Hello");
+            Assert.Equal(5, result.Length);
+            Assert.Equal("Hello", result);
         }
 
         [Fact]
