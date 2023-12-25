@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 
 namespace SpracheBinary
 {
@@ -23,12 +24,24 @@ namespace SpracheBinary
         /// <param name="parser">The parser.</param>
         /// <param name="input">The input.</param>
         /// <returns>The result of the parser</returns>
-        public static IResult<T> TryParse<T>(this Parser<T> parser, IEnumerable<byte> input)
+        public static IResult<T> TryParse<T>(this Parser<T> parser, Stream input)
         {
             if (parser == null) throw new ArgumentNullException(nameof(parser));
             if (input == null) throw new ArgumentNullException(nameof(input));
 
             return parser(new Input(input));
+        }
+
+        /// <summary>
+        /// Tries to parse the input without throwing an exception.
+        /// </summary>
+        /// <typeparam name="T">The type of the result.</typeparam>
+        /// <param name="parser">The parser.</param>
+        /// <param name="input">The input.</param>
+        /// <returns>The result of the parser</returns>
+        public static IResult<T> TryParse<T>(this Parser<T> parser, byte[] input)
+        {
+            return TryParse(parser, new MemoryStream(input));
         }
 
         /// <summary>
@@ -39,7 +52,7 @@ namespace SpracheBinary
         /// <param name="input">The input.</param>
         /// <returns>The result of the parser.</returns>
         /// <exception cref="Sprache.ParseException">It contains the details of the parsing error.</exception>
-        public static T Parse<T>(this Parser<T> parser, IEnumerable<byte> input)
+        public static T Parse<T>(this Parser<T> parser, Stream input)
         {
             if (parser == null) throw new ArgumentNullException(nameof(parser));
             if (input == null) throw new ArgumentNullException(nameof(input));

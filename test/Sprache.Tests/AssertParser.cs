@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using Xunit;
 
@@ -28,6 +29,21 @@ namespace SpracheBinary.Tests
 
         public static void SucceedsWith<T>(Parser<T> parser, IEnumerable<byte> input, Action<T> resultAssertion)
         {
+            parser.TryParse(new MemoryStream(input.ToArray()))
+                .IfFailure(f =>
+                {
+                    Assert.True(false, $"Parsing of \"input\" failed unexpectedly. f");
+                    return f;
+                })
+                .IfSuccess(s =>
+                {
+                    resultAssertion(s.Value);
+                    return s;
+                });
+        }
+
+        public static void SucceedsWith<T>(Parser<T> parser, Stream input, Action<T> resultAssertion)
+        {
             parser.TryParse(input)
                 .IfFailure(f =>
                 {
@@ -51,9 +67,24 @@ namespace SpracheBinary.Tests
             FailsWith(parser, input, f => Assert.Equal(position, f.Remainder.Position));
         }
 
-        public static void FailsWith<T>(Parser<T> parser, IEnumerable<byte> input, Action<IResult<T>> resultAssertion)
+        public static void FailsWith<T>(Parser<T> parser, Stream input, Action<IResult<T>> resultAssertion)
         {
             parser.TryParse(input)
+                .IfSuccess(s =>
+                {
+                    Assert.True(false, $"Expected failure but succeeded with {s.Value}.");
+                    return s;
+                })
+                .IfFailure(f =>
+                {
+                    resultAssertion(f);
+                    return f;
+                });
+        }
+
+        public static void FailsWith<T>(Parser<T> parser, IEnumerable<byte> input, Action<IResult<T>> resultAssertion)
+        {
+            parser.TryParse(new MemoryStream(input.ToArray()))
                 .IfSuccess(s =>
                 {
                     Assert.True(false, $"Expected failure but succeeded with {s.Value}.");

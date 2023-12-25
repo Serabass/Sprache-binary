@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 
 namespace SpracheBinary
@@ -9,10 +10,8 @@ namespace SpracheBinary
     /// </summary>
     public class Input : IInput
     {
-        private readonly IEnumerable<byte> _source;
+        private readonly Stream _source;
         private readonly int _position;
-        private readonly int _line;
-        private readonly int _column;
 
         /// <summary>
         /// Gets the list of memos assigned to the <see cref="Input" /> instance.
@@ -23,20 +22,30 @@ namespace SpracheBinary
         /// Initializes a new instance of the <see cref="Input" /> class.
         /// </summary>
         /// <param name="source">The source.</param>
-        public Input(IEnumerable<byte> source)
+        public Input(Stream source)
             : this(source, 0)
         {
         }
 
-        internal Input(IEnumerable<byte> source, int position, int line = 1, int column = 1)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Input" /> class.
+        /// </summary>
+        /// <param name="bytes">The source.</param>
+        public Input(byte[] bytes)
+            : this(new MemoryStream(bytes), 0)
+        {
+        }
+
+        internal Input(Stream source, int position, int line = 1, int column = 1)
         {
             _source = source;
             _position = position;
-            _line = line;
-            _column = column;
 
             Memos = new Dictionary<object, object>();
         }
+
+        internal Input(byte[] bytes, int position, int line = 1, int column = 1)
+            : this(new MemoryStream(bytes), position, line, column) {}
 
         /// <summary>
         /// Advances the input.
@@ -48,38 +57,28 @@ namespace SpracheBinary
             if (AtEnd)
                 throw new InvalidOperationException("The input is already at the end of the source.");
 
-            return new Input(_source, _position + 1, Current == '\n' ? _line + 1 : _line, Current == '\n' ? 1 : _column + 1);
+            return new Input(_source, _position + 1);
         }
 
         /// <summary>
         /// Gets the whole source.
         /// </summary>
-        public IEnumerable<byte> Source { get { return _source; } }
+        public Stream Source { get { return _source; } }
 
         /// <summary>
         /// Gets the current <see cref="System.Byte" />.
         /// </summary>
-        public byte Current { get { return _source.ToArray()[_position]; } }
+        public byte Current { get { return (byte)_source.ReadByte(); } }
 
         /// <summary>
         /// Gets a value indicating whether the end of the source is reached.
         /// </summary>
-        public bool AtEnd { get { return _position == _source.ToArray().Length; } }
+        public bool AtEnd { get { return _position == _source.Length; } }
 
         /// <summary>
         /// Gets the current positon.
         /// </summary>
         public int Position { get { return _position; } }
-
-        /// <summary>
-        /// Gets the current line number.
-        /// </summary>
-        public int Line { get { return _line; } }
-
-        /// <summary>
-        /// Gets the current column.
-        /// </summary>
-        public int Column { get { return _column; } }
 
         /// <summary>
         /// Returns a string that represents the current object.
@@ -89,7 +88,7 @@ namespace SpracheBinary
         /// </returns>
         public override string ToString()
         {
-            return string.Format("Line {0}, Column {1}", _line, _column);
+            return string.Format("Pos {0}", _position);
         }
 
         /// <summary>

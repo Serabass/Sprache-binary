@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 
 namespace SpracheBinary
 {
@@ -18,7 +19,7 @@ namespace SpracheBinary
         /// <summary>
         /// Gets the whole source.
         /// </summary>
-        IEnumerable<byte> Source { get; }
+        Stream Source { get; }
 
         /// <summary>
         /// Gets the current <see cref="System.Char" />.
@@ -34,18 +35,6 @@ namespace SpracheBinary
         /// Gets the current positon.
         /// </summary>
         int Position { get; }
-
-        /// <summary>
-        /// Gets the current line number.
-        /// </summary>
-        [Obsolete("Don't need this anymore")]
-        int Line { get; }
-
-        /// <summary>
-        /// Gets the current column.
-        /// </summary>
-        [Obsolete("Don't need this anymore")]
-        int Column { get; }
 
         /// <summary>
         /// Memos used by this input

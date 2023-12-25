@@ -17,7 +17,8 @@ namespace SpracheBinary.Tests
                          from b in Parse.AnyByte
                          select new RGB { R = r, G = g, B = b };
 
-            var rgb = parser.Parse(new byte[] { 255, 0, 0 });
+            var memoryStream = new MemoryStream(new byte[] { 255, 0, 0 });
+            var rgb = parser.Parse(memoryStream);
 
             Assert.Equal(255, rgb.R);
             Assert.Equal(0, rgb.G);
@@ -37,8 +38,7 @@ namespace SpracheBinary.Tests
                          from b in Parse.AnyByte
                          select new { A = a, B = b };
 
-            var mem = memoryStream.ToArray();
-            var bytes = parser.Parse(mem);
+            var bytes = parser.Parse(memoryStream);
 
             Assert.Equal(255, bytes.A);
             Assert.Equal(213, bytes.B);
@@ -53,8 +53,7 @@ namespace SpracheBinary.Tests
             writer.Flush();
 
             var parser = Parse.Single;
-            var mem = memoryStream.ToArray();
-            var result = parser.Parse(mem);
+            var result = parser.Parse(memoryStream);
 
             Assert.Equal(1.0f, result);
         }
@@ -72,8 +71,7 @@ namespace SpracheBinary.Tests
                          from b in Parse.Int16
                          select new { A = a, B = b };
 
-            var mem = memoryStream.ToArray();
-            var result = parser.Parse(mem);
+            var result = parser.Parse(memoryStream);
 
             Assert.Equal(1234, result.A);
             Assert.Equal(4321, result.B);
@@ -92,8 +90,7 @@ namespace SpracheBinary.Tests
                          from b in Parse.UInt16
                          select new { A = a, B = b };
 
-            var mem = memoryStream.ToArray();
-            var result = parser.Parse(mem);
+            var result = parser.Parse(memoryStream);
 
             Assert.Equal(1234u, result.A);
             Assert.Equal(4321u, result.B);
@@ -112,8 +109,7 @@ namespace SpracheBinary.Tests
                          from b in Parse.Int32
                          select new { A = a, B = b };
 
-            var mem = memoryStream.ToArray();
-            var result = parser.Parse(mem);
+            var result = parser.Parse(memoryStream);
 
             Assert.Equal(1234, result.A);
             Assert.Equal(4321, result.B);
@@ -132,8 +128,7 @@ namespace SpracheBinary.Tests
                          from b in Parse.UInt32
                          select new { A = a, B = b };
 
-            var mem = memoryStream.ToArray();
-            var result = parser.Parse(mem);
+            var result = parser.Parse(memoryStream);
 
             Assert.Equal(1234u, result.A);
             Assert.Equal(4321u, result.B);
@@ -152,8 +147,7 @@ namespace SpracheBinary.Tests
                          from b in Parse.Single
                          select new { A = a, B = b };
 
-            var mem = memoryStream.ToArray();
-            var result = parser.Parse(mem);
+            var result = parser.Parse(memoryStream);
 
             Assert.Equal(1.0f, result.A);
             Assert.Equal(2.0f, result.B);
@@ -172,8 +166,7 @@ namespace SpracheBinary.Tests
                          from b in Parse.Double
                          select new { A = a, B = b };
 
-            var mem = memoryStream.ToArray();
-            var result = parser.Parse(mem);
+            var result = parser.Parse(memoryStream);
 
             Assert.Equal(1.0d, result.A);
             Assert.Equal(2.0d, result.B);
@@ -195,8 +188,7 @@ namespace SpracheBinary.Tests
             var parser = from length in Parse.Int32
                          select new { Length = length };
 
-            var mem = memoryStream.ToArray();
-            var result = parser.Parse(mem);
+            var result = parser.Parse(memoryStream);
 
             Assert.Equal("Hello", "Hello");
         }
@@ -215,7 +207,7 @@ namespace SpracheBinary.Tests
             writer.Flush();
 
             var parser = Parse.StringZeroTerminated;
-            var result = parser.Parse(memoryStream.ToArray());
+            var result = parser.Parse(memoryStream);
 
             Assert.Equal("Hello", result);
         }

@@ -12,13 +12,9 @@ namespace SpracheBinary
         /// Initializes a new instance of the <see cref="Position" /> class.
         /// </summary>
         /// <param name="pos">The position.</param>
-        /// <param name="line">The line number.</param>
-        /// <param name="column">The column.</param>
-        public Position(int pos, int line, int column)
+        public Position(int pos)
         {
             Pos = pos;
-            Line = line;
-            Column = column;
         }
 
         /// <summary>
@@ -28,29 +24,13 @@ namespace SpracheBinary
         /// <returns>A new <see cref="Position"/> instance.</returns>
         public static Position FromInput(IInput input)
         {
-            return new Position(input.Position, input.Line, input.Column);
+            return new Position(input.Position);
         }
 
         /// <summary>
         /// Gets the current positon.
         /// </summary>
         public int Pos
-        {
-            get;
-        }
-
-        /// <summary>
-        /// Gets the current line number.
-        /// </summary>
-        public int Line
-        {
-            get;
-        }
-
-        /// <summary>
-        /// Gets the current column.
-        /// </summary>
-        public int Column
         {
             get;
         }
@@ -78,9 +58,7 @@ namespace SpracheBinary
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;
-            return Pos == other.Pos
-                && Line == other.Line
-                && Column == other.Column;
+            return Pos == other.Pos;
         }
 
         /// <summary>
@@ -115,8 +93,6 @@ namespace SpracheBinary
         {
             var h = 31;
             h = h * 13 + Pos;
-            h = h * 13 + Line;
-            h = h * 13 + Column;
             return h;
         }
 
@@ -128,7 +104,7 @@ namespace SpracheBinary
         /// </returns>
         public override string ToString()
         {
-            return string.Format("Line {0}, Column {1}", Line, Column);
+            return string.Format("Position {0}", Pos);
         }
     }
 }
