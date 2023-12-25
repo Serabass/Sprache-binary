@@ -66,6 +66,18 @@ namespace SpracheBinary.Tests
         }
 
         [Fact]
+        public void TestSimpleDouble()
+        {
+            var parser = Parse.Double;
+            var result = parser.Parse(BuildMemoryStream((writer) =>
+            {
+                writer.Write(1.0d);
+            }));
+
+            Assert.Equal(1.0d, result);
+        }
+
+        [Fact]
         public void TestSimpleInt16()
         {
             var parser = from a in Parse.Int16
@@ -158,12 +170,12 @@ namespace SpracheBinary.Tests
 
             var result = parser.Parse(BuildMemoryStream((writer) =>
             {
-                writer.Write(1234uL);
-                writer.Write(4321uL);
+                writer.Write(1234Lu);
+                writer.Write(4321Lu);
             }));
 
-            Assert.Equal(1234uL, result.A);
-            Assert.Equal(4321uL, result.B);
+            Assert.Equal(1234Lu, result.A);
+            Assert.Equal(4321Lu, result.B);
         }
 
         [Fact]

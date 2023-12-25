@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+﻿using System;
 using System.Linq;
 using Xunit;
 
@@ -27,7 +27,7 @@ namespace SpracheBinary.Tests
         [Fact]
         public void Parser_OfChar_DoesNotAcceptEmptyInput()
         {
-            AssertParser.Fails(Parse.Byte(0).Once(), System.Array.Empty<byte>());
+            AssertParser.Fails(Parse.Byte(0).Once(), Array.Empty<byte>());
         }
 
         [Fact]
@@ -51,7 +51,7 @@ namespace SpracheBinary.Tests
         [Fact]
         public void Parser_OfManyChars_AcceptsEmptyInput()
         {
-            AssertParser.SucceedsWithAll(Parse.Byte(0).Many(), System.Array.Empty<byte>());
+            AssertParser.SucceedsWithAll(Parse.Byte(0).Many(), Array.Empty<byte>());
         }
 
         [Fact]
@@ -63,7 +63,7 @@ namespace SpracheBinary.Tests
         [Fact]
         public void Parser_OfAtLeastOneChar_DoesNotAcceptEmptyInput()
         {
-            AssertParser.Fails(Parse.Byte(0).AtLeastOnce(), System.Array.Empty<byte>());
+            AssertParser.Fails(Parse.Byte(0).AtLeastOnce(), Array.Empty<byte>());
         }
 
         [Fact]
