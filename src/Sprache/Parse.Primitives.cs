@@ -72,5 +72,12 @@ namespace SpracheBinary
         public static readonly Parser<byte[]> ByteArray = from length in AnyByte
                                                           from bytes in AnyByte.Repeat(length)
                                                           select bytes.ToArray();
+
+        public static Parser<string> ConstString(string value)
+        {
+            return from bytes in AnyByte.Repeat(value.Length)
+                   where Encoding.UTF8.GetString(bytes.ToArray()) == value
+                   select value;
+        }
     }
 }
