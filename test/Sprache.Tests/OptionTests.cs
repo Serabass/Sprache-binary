@@ -1,6 +1,6 @@
 using Xunit;
 
-namespace Sprache.Tests
+namespace SpracheBinary.Tests
 {
     public class OptionTests
     {

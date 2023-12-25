@@ -1,7 +1,7 @@
 ﻿using System;
 // ReSharper disable MemberCanBePrivate.Global
 
-namespace Sprache
+namespace SpracheBinary
 {
     /// <summary>
     /// Represents a position in the input.

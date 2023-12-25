@@ -1,4 +1,4 @@
-﻿namespace Sprache
+﻿namespace SpracheBinary
 {
     /// <summary>
     /// Represents a text span of the matched result.

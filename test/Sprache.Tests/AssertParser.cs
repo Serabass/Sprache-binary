@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Xunit;
 
-namespace Sprache.Tests
+namespace SpracheBinary.Tests
 {
     static class AssertParser
     {
@@ -19,6 +19,11 @@ namespace Sprache.Tests
         public static void SucceedsWithMany<T>(Parser<IEnumerable<T>> parser, IEnumerable<byte> input, IEnumerable<T> expectedResult)
         {
             SucceedsWith(parser, input, t => Assert.True(t.SequenceEqual(expectedResult)));
+        }
+
+        public static void SucceedsWithAll(Parser<IEnumerable<byte>> parser, IEnumerable<byte> input)
+        {
+            SucceedsWithMany(parser, input, input);
         }
 
         public static void SucceedsWith<T>(Parser<T> parser, IEnumerable<byte> input, Action<T> resultAssertion)

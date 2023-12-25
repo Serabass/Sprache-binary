@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Sprache
+namespace SpracheBinary
 {
     /// <summary>
     /// Represents an input for parsing.

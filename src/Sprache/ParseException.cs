@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Sprache
+namespace SpracheBinary
 {
     /// <summary>
     /// Represents an error that occurs during parsing.

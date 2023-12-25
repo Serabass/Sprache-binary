@@ -1,5 +1,5 @@
 ﻿
-namespace Sprache
+namespace SpracheBinary
 {
     partial class Parse
     {

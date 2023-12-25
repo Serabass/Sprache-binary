@@ -6,7 +6,7 @@ using System.Linq;
 // ReSharper disable InconsistentNaming
 // ReSharper disable UnusedMember.Global
 
-namespace Sprache
+namespace SpracheBinary
 {
     /// <summary>
     /// Parsers and combinators.
@@ -162,10 +162,15 @@ namespace Sprache
         /// </summary>
         /// <param name="s"></param>
         /// <returns></returns>
-        [Obsolete("Don't need this anymore")]
-        public static Parser<IEnumerable<byte>> String(IEnumerable<byte> s)
+        public static Parser<IEnumerable<byte>> ByteSequence(IEnumerable<byte> s)
         {
-            throw new NotImplementedException();
+            if (s == null) throw new ArgumentNullException(nameof(s));
+
+            return s
+                .Select(Byte)
+                .Aggregate(Return(Enumerable.Empty<byte>()),
+                    (a, p) => a.Concat(p.Once()))
+                .Named($"bytes sequence: {StringExtensions.Join(", ", s.Select(b => b.ToString("X2")))}");
         }
 
         /// <summary>
@@ -730,7 +735,7 @@ namespace Sprache
         /// <summary>
         /// Parse a decimal number using the current culture's separator character.
         /// </summary>
-        [Obsolete("Don't need this anymore")]
-        public static readonly Parser<IEnumerable<byte>> Decimal = DecimalWithLeadingDigits().XOr(DecimalWithoutLeadingDigits());
+        // [Obsolete("Don't need this anymore")]
+        // public static readonly Parser<IEnumerable<byte>> Decimal = DecimalWithLeadingDigits().XOr(DecimalWithoutLeadingDigits());
     }
 }

@@ -5,7 +5,7 @@ using System.Globalization;
 using System.Linq;
 using Xunit;
 
-namespace Sprache.Tests.Scenarios
+namespace SpracheBinary.Tests.Scenarios
 {
     public class AmqpErrorTests
     {

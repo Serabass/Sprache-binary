@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Xunit;
 
-namespace Sprache.Tests
+namespace SpracheBinary.Tests
 {
     public class ResultTests
     {

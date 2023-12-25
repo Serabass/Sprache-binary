@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Sprache
+namespace SpracheBinary
 {
     /// <summary>
     /// Represents a parsing result.

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Sprache
+namespace SpracheBinary
 {
     /// <summary>
     /// Represents an input for parsing.

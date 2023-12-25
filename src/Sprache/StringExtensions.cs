@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Sprache
+namespace SpracheBinary
 {
     internal static class StringExtensions
     {

@@ -2,7 +2,7 @@
 using System.Linq.Expressions;
 using Xunit;
 
-namespace Sprache.Tests.Scenarios
+namespace SpracheBinary.Tests.Scenarios
 {
     public class ExpressionGrammarTests
     {

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Sprache
+namespace SpracheBinary
 {
     internal static class ResultHelper
     {
