@@ -90,14 +90,7 @@ namespace SpracheBinary
             if (Expectations.Any())
                 expMsg = " expected " + Expectations.Aggregate((e1, e2) => e1 + " or " + e2);
 
-            var recentlyConsumed = CalculateRecentlyConsumed();
-
-            return string.Format("Parsing failure: {0};{1} ({2}); recently consumed: {3}", Message, expMsg, Remainder, recentlyConsumed);
-        }
-
-        private string CalculateRecentlyConsumed()
-        {
-            throw new NotImplementedException();
+            return string.Format("Parsing failure: {0};{1} ({2});", Message, expMsg, Remainder);
         }
     }
 }
