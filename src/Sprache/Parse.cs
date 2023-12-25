@@ -55,7 +55,7 @@ namespace Sprache
         /// <returns>A parser for characters except those matching <paramref name="predicate"/>.</returns>
         public static Parser<byte> ByteExcept(Predicate<byte> predicate, string description)
         {
-            return Byte(c => !predicate(c), "any character except " + description);
+            return Byte(c => !predicate(c), "any byte except " + description);
         }
 
         /// <summary>
@@ -95,7 +95,7 @@ namespace Sprache
         /// </summary>
         /// <param name="c"></param>
         /// <returns></returns>
-        public static Parser<byte> CharExcept(byte c)
+        public static Parser<byte> ByteExcept(byte c)
         {
             return ByteExcept(ch => c == ch, c.ToString());
         }

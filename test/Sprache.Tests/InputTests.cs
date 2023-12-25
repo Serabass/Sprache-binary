@@ -55,7 +55,7 @@ namespace Sprache.Tests
         public void CurrentCharacter_ReflectsPosition()
         {
             var i = new Input(new byte[] { 1, 2, 3, 4, 5 }, 1);
-            Assert.Equal(1, i.Current);
+            Assert.Equal(2, i.Current);
         }
 
         [Fact]

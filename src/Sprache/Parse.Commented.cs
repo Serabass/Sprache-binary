@@ -78,22 +78,5 @@ namespace Sprache
         }
 
         private static readonly string[] EmptyStringList = new string[0];
-
-        private static readonly IComment DefaultCommentParser = new CommentParser();
-
-        /// <summary>
-        /// Constructs a parser that consumes a whitespace and all comments
-        /// parsed by the commentParser.AnyComment parser, but parses only one trailing
-        /// comment that starts exactly on the last line of the parsed value.
-        /// </summary>
-        /// <typeparam name="T">The result type of the given parser.</typeparam>
-        /// <param name="parser">The parser to wrap.</param>
-        /// <param name="commentParser">The comment parser.</param>
-        /// <returns>An extended Token() version of the given parser.</returns>
-        [Obsolete("Don't need this anymore")]
-        public static Parser<ICommented<T>> Commented<T>(this Parser<T> parser, IComment commentParser = null)
-        {
-            throw new NotImplementedException();
-        }
     }
 }
