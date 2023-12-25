@@ -15,29 +15,8 @@ namespace SpracheBinary.Tests
 
             Assert.Throws<ParseException>(() => parser.Parse(new byte[] { 4 }));
             Assert.Equal(3, parser.Parse(new byte[] { 3 }));
-            Assert.Equal(2, parser.Parse(new byte[] { 3 }));
+            Assert.Equal(2, parser.Parse(new byte[] { 2 }));
         }
 
-        [Fact]
-        public void TestByteArray()
-        {
-            var parser = from r in Parse.ByteArray
-                         select r;
-
-            var memoryStream = new MemoryStream();
-            var writer = new BinaryWriter(memoryStream);
-            writer.Write((byte)2);
-            writer.Write((byte)255);
-            writer.Write((byte)213);
-            writer.Flush();
-
-            memoryStream.Position = 0;
-
-            var bytes = parser.Parse(memoryStream);
-
-            Assert.Equal(2, bytes.Length);
-            Assert.Equal(255, bytes[0]);
-            Assert.Equal(213, bytes[1]);
-        }
     }
 }

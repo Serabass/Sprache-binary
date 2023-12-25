@@ -137,8 +137,8 @@ namespace SpracheBinary
         /// </summary>
         public static readonly Parser<byte> AnyByte = Byte(c => true, "any character");
 
-        public static readonly Parser<DateTime> DateTime = from ticks in Int64
-                                                           select new DateTime(ticks);
+        //public static readonly Parser<DateTime> DateTime = from ticks in Int64
+        //                                                   select new DateTime(ticks);
 
         /// <summary>
         /// Parse a string of characters.

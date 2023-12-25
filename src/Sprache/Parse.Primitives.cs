@@ -36,7 +36,7 @@ namespace SpracheBinary
                                                     from b6 in AnyByte
                                                     from b7 in AnyByte
                                                     from b8 in AnyByte
-                                                    select (long)((b1 << 56) | (b2 << 48) | (b3 << 40) | (b4 << 32) | (b5 << 24) | (b6 << 16) | (b7 << 8) | b8);
+                                                    select (long)((b1 | (b2 << 8) | (b3 << 16) | b4 << 24) | ((long)b5 << 32) | ((long)b6 << 40) | ((long)b7 << 48) | ((long)b8 << 56));
 
         public static readonly Parser<ulong> UInt64 = from b1 in AnyByte
                                                       from b2 in AnyByte
@@ -46,7 +46,7 @@ namespace SpracheBinary
                                                       from b6 in AnyByte
                                                       from b7 in AnyByte
                                                       from b8 in AnyByte
-                                                      select (ulong)((b1 << 56) | (b2 << 48) | (b3 << 40) | (b4 << 32) | (b5 << 24) | (b6 << 16) | (b7 << 8) | b8);
+                                                      select (ulong)((b1 | (b2 << 8) | (b3 << 16) | b4 << 24) | ((long)b5 << 32) | ((long)b6 << 40) | ((long)b7 << 48) | ((long)b8 << 56));
 
         public static readonly Parser<float> Single = from b1 in AnyByte
                                                       from b2 in AnyByte
@@ -72,8 +72,9 @@ namespace SpracheBinary
                                                                      select System.Text.Encoding.UTF8.GetString(bytes.ToArray());
 
 
-        public static readonly Parser<byte[]> ByteArray = from length in AnyByte
-                                                          from bytes in AnyByte.Repeat(length)
-                                                          select bytes.ToArray();
+//        [Obsolete]
+//        public static readonly Parser<byte[]> ByteArray = from length in AnyByte
+//                                                          from bytes in AnyByte.Repeat(length)
+//                                                          select bytes.ToArray();
     }
 }
