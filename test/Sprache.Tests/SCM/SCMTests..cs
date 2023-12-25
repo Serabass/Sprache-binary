@@ -1,5 +1,6 @@
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Security.Cryptography;
 using Xunit;
 
@@ -15,6 +16,9 @@ namespace SpracheBinary.Tests.SCM
     NAME_THREAD = 0x03A4,
   }
 
+  public readonly Parser<string> String8 = from str in Parse.AnyByte.Repeat(8)
+                                           select Encoding.ASCII.GetString(str.ToArray());
+
   public class SCMTests
   {
     [Fact]
@@ -25,12 +29,13 @@ namespace SpracheBinary.Tests.SCM
       var hashString = System.BitConverter.ToString(hash).Replace("-", "").ToLowerInvariant();
       Assert.Equal("97398200d4423c3cf93285b178136e75", hashString);
 
-      var String8 = from str in Parse.AnyByte.Repeat(8)
-                    select System.Text.Encoding.ASCII.GetString(str.ToArray());
-
       var opcode = from _ in Parse.AnyByte.Repeat(0x9AE4)
                    from op in Parse.UInt16
                    select (SCMOpcode)op;
+
+      var scmDoc = from _ in Parse.AnyByte.Repeat(0x9AE4)
+                   from op in opcode
+                   select op;
 
       var p = opcode.Parse(stream);
     }
