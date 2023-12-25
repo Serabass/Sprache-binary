@@ -7,7 +7,7 @@ namespace Sprache.Tests
 {
     static class AssertParser
     {
-        public static void SucceedsWithOne<T>(Parser<IEnumerable<T>> parser, string input, T expectedResult)
+        public static void SucceedsWithOne<T>(Parser<IEnumerable<T>> parser, IEnumerable<byte> input, T expectedResult)
         {
             SucceedsWith(parser, input, t =>
             {
@@ -16,17 +16,12 @@ namespace Sprache.Tests
             });
         }
 
-        public static void SucceedsWithMany<T>(Parser<IEnumerable<T>> parser, string input, IEnumerable<T> expectedResult)
+        public static void SucceedsWithMany<T>(Parser<IEnumerable<T>> parser, IEnumerable<byte> input, IEnumerable<T> expectedResult)
         {
             SucceedsWith(parser, input, t => Assert.True(t.SequenceEqual(expectedResult)));
         }
 
-        public static void SucceedsWithAll(Parser<IEnumerable<char>> parser, string input)
-        {
-            SucceedsWithMany(parser, input, input.ToCharArray());
-        }
-
-        public static void SucceedsWith<T>(Parser<T> parser, string input, Action<T> resultAssertion)
+        public static void SucceedsWith<T>(Parser<T> parser, IEnumerable<byte> input, Action<T> resultAssertion)
         {
             parser.TryParse(input)
                 .IfFailure(f =>
@@ -41,17 +36,17 @@ namespace Sprache.Tests
                 });
         }
 
-        public static void Fails<T>(Parser<T> parser, string input)
+        public static void Fails<T>(Parser<T> parser, IEnumerable<byte> input)
         {
             FailsWith(parser, input, f => { });
         }
 
-        public static void FailsAt<T>(Parser<T> parser, string input, int position)
+        public static void FailsAt<T>(Parser<T> parser, IEnumerable<byte> input, int position)
         {
             FailsWith(parser, input, f => Assert.Equal(position, f.Remainder.Position));
         }
 
-        public static void FailsWith<T>(Parser<T> parser, string input, Action<IResult<T>> resultAssertion)
+        public static void FailsWith<T>(Parser<T> parser, IEnumerable<byte> input, Action<IResult<T>> resultAssertion)
         {
             parser.TryParse(input)
                 .IfSuccess(s =>

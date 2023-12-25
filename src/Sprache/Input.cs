@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Sprache
 {
@@ -8,7 +9,7 @@ namespace Sprache
     /// </summary>
     public class Input : IInput
     {
-        private readonly string _source;
+        private readonly IEnumerable<byte> _source;
         private readonly int _position;
         private readonly int _line;
         private readonly int _column;
@@ -22,12 +23,12 @@ namespace Sprache
         /// Initializes a new instance of the <see cref="Input" /> class.
         /// </summary>
         /// <param name="source">The source.</param>
-        public Input(string source)
+        public Input(IEnumerable<byte> source)
             : this(source, 0)
         {
         }
 
-        internal Input(string source, int position, int line = 1, int column = 1)
+        internal Input(IEnumerable<byte> source, int position, int line = 1, int column = 1)
         {
             _source = source;
             _position = position;
@@ -53,17 +54,17 @@ namespace Sprache
         /// <summary>
         /// Gets the whole source.
         /// </summary>
-        public string Source { get { return _source; } }
+        public IEnumerable<byte> Source { get { return _source; } }
 
         /// <summary>
-        /// Gets the current <see cref="System.Char" />.
+        /// Gets the current <see cref="System.Byte" />.
         /// </summary>
-        public char Current { get { return _source[_position]; } }
+        public byte Current { get { return _source.ToArray()[_position]; } }
 
         /// <summary>
         /// Gets a value indicating whether the end of the source is reached.
         /// </summary>
-        public bool AtEnd { get { return _position == _source.Length; } }
+        public bool AtEnd { get { return _position == _source.ToArray().Length; } }
 
         /// <summary>
         /// Gets the current positon.

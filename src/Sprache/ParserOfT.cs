@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Sprache
 {
@@ -22,7 +23,7 @@ namespace Sprache
         /// <param name="parser">The parser.</param>
         /// <param name="input">The input.</param>
         /// <returns>The result of the parser</returns>
-        public static IResult<T> TryParse<T>(this Parser<T> parser, string input)
+        public static IResult<T> TryParse<T>(this Parser<T> parser, IEnumerable<byte> input)
         {
             if (parser == null) throw new ArgumentNullException(nameof(parser));
             if (input == null) throw new ArgumentNullException(nameof(input));
@@ -38,7 +39,7 @@ namespace Sprache
         /// <param name="input">The input.</param>
         /// <returns>The result of the parser.</returns>
         /// <exception cref="Sprache.ParseException">It contains the details of the parsing error.</exception>
-        public static T Parse<T>(this Parser<T> parser, string input)
+        public static T Parse<T>(this Parser<T> parser, IEnumerable<byte> input)
         {
             if (parser == null) throw new ArgumentNullException(nameof(parser));
             if (input == null) throw new ArgumentNullException(nameof(input));
