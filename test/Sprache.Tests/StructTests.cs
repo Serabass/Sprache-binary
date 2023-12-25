@@ -227,5 +227,38 @@ namespace SpracheBinary.Tests
 
             Assert.Equal("Hello", result);
         }
+
+        [Fact]
+        public void TestComplexStruct()
+        {
+            var memoryStream = new MemoryStream();
+            var writer = new BinaryWriter(memoryStream);
+            writer.Write((byte)255);
+
+            writer.Write((short)12345);
+            writer.Write(55111111);
+
+            writer.Write((byte)'H');
+            writer.Write((byte)'e');
+            writer.Write((byte)'l');
+            writer.Write((byte)'l');
+            writer.Write((byte)'o');
+            writer.Write((byte)0);
+            writer.Flush();
+
+            memoryStream.Position = 0;
+
+            var parser = from b in Parse.AnyByte
+                         from i16 in Parse.Int16
+                         from i32 in Parse.Int32
+                         from s in Parse.StringZeroTerminated
+                         select new { B = b, I16 = i16, I32 = i32, S = s };
+            var result = parser.Parse(memoryStream);
+
+            Assert.Equal(255, result.B);
+            Assert.Equal(12345, result.I16);
+            Assert.Equal(55111111, result.I32);
+            Assert.Equal("Hello", result.S);
+        }
     }
 }
