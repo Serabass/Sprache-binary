@@ -1,5 +1,5 @@
 ﻿using System.Linq;
-using Sprache;
+using SpracheBinary;
 
 namespace TinyTemplates
 {
