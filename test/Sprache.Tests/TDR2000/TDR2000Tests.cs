@@ -14,9 +14,13 @@ namespace SpracheBinary.Tests.TDR2000
     public int size;
   }
 
-  public struct PakEntry {
+  public struct PakEntry
+  {
     public string name;
     public IEnumerable<byte> data;
+    public string content;
+    public int offset;
+    public int size;
   }
 
   public class DirParser : IDisposable
@@ -59,21 +63,26 @@ namespace SpracheBinary.Tests.TDR2000
 
     private PakEntry ReadPakEntry(int offset, int size, string name)
     {
-      var reader = from _ in Parse.Seek(offset, SeekOrigin.Begin)
-                   from bytes in Parse.AnyByte.Repeat(size)
-                   select new PakEntry
-                   {
-                     name = name,
-                     data = bytes
-                   };
+      pakStream.Flush();
+      pakStream.Seek(offset, SeekOrigin.Begin);
+      var reader = new BinaryReader(pakStream);
+      var data = reader.ReadBytes(size);
+      var content = System.Text.Encoding.UTF8.GetString(data); //.Reverse().Aggregate("", (acc, ch) => acc + ch).Trim();
 
-      return reader.Parse(pakStream);
+      return new PakEntry
+      {
+        name = name,
+        data = data,
+        content = content,
+        offset = offset,
+        size = size
+      };
     }
 
     public DirParser Init()
     {
-      dirStream = File.OpenRead(path + ".dir");
-      pakStream = File.OpenRead(path + ".pak");
+      dirStream = File.OpenRead($"{path}.dir");
+      pakStream = File.OpenRead($"{path}.pak");
 
       var blocks = TDocument.Parse(dirStream);
       pakEntries = blocks.Select(b => ReadPakEntry(b.offset, b.size, b.fileName)).ToArray();
@@ -93,7 +102,7 @@ namespace SpracheBinary.Tests.TDR2000
     [Fact]
     public void ReadDirTest()
     {
-      using DirParser p = new DirParser(@"C:\Program Files (x86)\Новый Диск\Кармагеддон. Колеса смерти\Assets\MovableObjects\MOVABLEOBJECTS")
+      using DirParser p = new DirParser(@"C:\Program Files (x86)\Новый Диск\Кармагеддон. Колеса смерти\Assets\Sound\COMMON")
         .Init();
 
     }
