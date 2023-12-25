@@ -18,5 +18,15 @@ namespace SpracheBinary.Tests
             Assert.Equal(2, parser.Parse(new byte[] { 2 }));
         }
 
+        [Fact]
+        public void TestSeek()
+        {
+            var parser = from seek in Parse.Seek(2)
+                         from r in Parse.AnyByte
+                         select r;
+
+            Assert.Equal(2, parser.Parse(new byte[] { 0, 1, 2, 3, 4 }));
+        }
+
     }
 }

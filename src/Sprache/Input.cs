@@ -91,9 +91,9 @@ namespace SpracheBinary
         /// <summary>
         /// Seeks to the specified position.
         /// </summary>
-        public void Seek(int position)
+        public void Seek(int position, SeekOrigin origin = SeekOrigin.Begin)
         {
-            _source.Seek(position, SeekOrigin.Begin);
+            _source.Seek(position, origin);
         }
 
         /// <summary>

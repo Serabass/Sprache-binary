@@ -39,7 +39,7 @@ namespace SpracheBinary
         /// <summary>
         /// Seeks to the specified position.
         /// </summary>
-        void Seek(int position);
+        void Seek(int position, SeekOrigin origin = SeekOrigin.Begin);
 
         /// <summary>
         /// Memos used by this input

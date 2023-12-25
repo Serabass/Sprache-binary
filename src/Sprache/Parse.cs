@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 // ReSharper disable MemberCanBePrivate.Global
 // ReSharper disable InconsistentNaming
@@ -136,9 +137,9 @@ namespace SpracheBinary
         /// Parse any character.
         /// </summary>
         public static readonly Parser<byte> AnyByte = Byte(c => true, "any character");
-        public static Parser<byte> Seek(int Position) {
+        public static Parser<byte> Seek(int Position, SeekOrigin origin = SeekOrigin.Begin) {
             return i => {
-                i.Seek(Position);
+                i.Seek(Position, origin);
                 return Result.Success<byte>(0, i);
             };
         }
