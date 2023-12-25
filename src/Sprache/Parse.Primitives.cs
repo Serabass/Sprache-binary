@@ -10,23 +10,23 @@ namespace SpracheBinary
         /// </summary>
         public static readonly Parser<short> Int16 = from b1 in AnyByte
                                                      from b2 in AnyByte
-                                                     select (short)(b1 | (b2 << 8));
+                                                     select BitConverter.ToInt16(new[] { b1, b2 }, 0);
 
         public static readonly Parser<ushort> UInt16 = from b1 in AnyByte
                                                        from b2 in AnyByte
-                                                       select (ushort)(b1 | (b2 << 8));
+                                                       select BitConverter.ToUInt16(new[] { b1, b2 }, 0);
 
         public static readonly Parser<int> Int32 = from b1 in AnyByte
                                                    from b2 in AnyByte
                                                    from b3 in AnyByte
                                                    from b4 in AnyByte
-                                                   select b1 | (b2 << 8) | (b3 << 16) | b4 << 24;
+                                                   select BitConverter.ToInt32(new[] { b1, b2, b3, b4 }, 0);
 
         public static readonly Parser<uint> UInt32 = from b1 in AnyByte
                                                      from b2 in AnyByte
                                                      from b3 in AnyByte
                                                      from b4 in AnyByte
-                                                     select (uint)(b1 | (b2 << 8) | (b3 << 16) | b4 << 24);
+                                                     select BitConverter.ToUInt32(new[] { b1, b2, b3, b4 }, 0);
 
         public static readonly Parser<long> Int64 = from b1 in AnyByte
                                                     from b2 in AnyByte
@@ -36,7 +36,7 @@ namespace SpracheBinary
                                                     from b6 in AnyByte
                                                     from b7 in AnyByte
                                                     from b8 in AnyByte
-                                                    select (long)((b1 | (b2 << 8) | (b3 << 16) | b4 << 24) | ((long)b5 << 32) | ((long)b6 << 40) | ((long)b7 << 48) | ((long)b8 << 56));
+                                                    select BitConverter.ToInt64(new[] { b1, b2, b3, b4, b5, b6, b7, b8 }, 0);
 
         public static readonly Parser<ulong> UInt64 = from b1 in AnyByte
                                                       from b2 in AnyByte
@@ -46,7 +46,7 @@ namespace SpracheBinary
                                                       from b6 in AnyByte
                                                       from b7 in AnyByte
                                                       from b8 in AnyByte
-                                                      select (ulong)((b1 | (b2 << 8) | (b3 << 16) | b4 << 24) | ((long)b5 << 32) | ((long)b6 << 40) | ((long)b7 << 48) | ((long)b8 << 56));
+                                                      select BitConverter.ToUInt64(new[] { b1, b2, b3, b4, b5, b6, b7, b8 }, 0);
 
         public static readonly Parser<float> Single = from b1 in AnyByte
                                                       from b2 in AnyByte
