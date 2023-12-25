@@ -31,6 +31,8 @@ namespace SpracheBinary.Tests
             writer.Write((byte)213);
             writer.Flush();
 
+            memoryStream.Position = 0;
+
             var bytes = parser.Parse(memoryStream);
 
             Assert.Equal(2, bytes.Length);

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Xunit;
@@ -25,20 +26,30 @@ namespace SpracheBinary.Tests
             Assert.Equal(0, rgb.B);
         }
 
-        [Fact]
-        public void TestSimpleBytes()
+        private MemoryStream CreateMemoryStream(Action<BinaryWriter> predicate)
         {
             var memoryStream = new MemoryStream();
             var writer = new BinaryWriter(memoryStream);
-            writer.Write((byte)255);
-            writer.Write((byte)213);
-            writer.Flush();
+            {
+                predicate(writer);
+                writer.Flush();
+            }
+            memoryStream.Position = 0;
+            return memoryStream;
+        }
 
+        [Fact]
+        public void TestSimpleBytes()
+        {
             var parser = from a in Parse.AnyByte
                          from b in Parse.AnyByte
                          select new { A = a, B = b };
 
-            var bytes = parser.Parse(memoryStream);
+            var bytes = parser.Parse(CreateMemoryStream((writer) =>
+            {
+                writer.Write((byte)255);
+                writer.Write((byte)213);
+            }));
 
             Assert.Equal(255, bytes.A);
             Assert.Equal(213, bytes.B);
@@ -47,13 +58,11 @@ namespace SpracheBinary.Tests
         [Fact]
         public void TestSimpleSingle()
         {
-            var memoryStream = new MemoryStream();
-            var writer = new BinaryWriter(memoryStream);
-            writer.Write(1.0f);
-            writer.Flush();
-
             var parser = Parse.Single;
-            var result = parser.Parse(memoryStream);
+            var result = parser.Parse(CreateMemoryStream((writer) =>
+            {
+                writer.Write(1.0f);
+            }));
 
             Assert.Equal(1.0f, result);
         }
@@ -61,20 +70,15 @@ namespace SpracheBinary.Tests
         [Fact]
         public void TestSimpleInt16()
         {
-            var memoryStream = new MemoryStream();
-            var writer = new BinaryWriter(memoryStream);
-            writer.Write((short)1234);
-            writer.Write((short)4321);
-            writer.Flush();
-
             var parser = from a in Parse.Int16
                          from b in Parse.Int16
                          select new { A = a, B = b };
 
-            memoryStream.Position = 0;
-
-            var result = parser.Parse(memoryStream);
-
+            var result = parser.Parse(CreateMemoryStream((writer) =>
+            {
+                writer.Write((short)1234);
+                writer.Write((short)4321);
+            }));
             Assert.Equal(1234, result.A);
             Assert.Equal(4321, result.B);
         }
@@ -82,19 +86,15 @@ namespace SpracheBinary.Tests
         [Fact]
         public void TestSimpleUInt16()
         {
-            var memoryStream = new MemoryStream();
-            var writer = new BinaryWriter(memoryStream);
-            writer.Write((ushort)1234);
-            writer.Write((ushort)4321);
-            writer.Flush();
-
             var parser = from a in Parse.UInt16
                          from b in Parse.UInt16
                          select new { A = a, B = b };
 
-            memoryStream.Position = 0;
-
-            var result = parser.Parse(memoryStream);
+            var result = parser.Parse(CreateMemoryStream((writer) =>
+            {
+                writer.Write((ushort)1234);
+                writer.Write((ushort)4321);
+            }));
 
             Assert.Equal(1234u, result.A);
             Assert.Equal(4321u, result.B);
@@ -103,19 +103,15 @@ namespace SpracheBinary.Tests
         [Fact]
         public void TestSimpleInt32()
         {
-            var memoryStream = new MemoryStream();
-            var writer = new BinaryWriter(memoryStream);
-            writer.Write(1234);
-            writer.Write(4321);
-            writer.Flush();
-
             var parser = from a in Parse.Int32
                          from b in Parse.Int32
                          select new { A = a, B = b };
 
-            memoryStream.Position = 0;
-
-            var result = parser.Parse(memoryStream);
+            var result = parser.Parse(CreateMemoryStream((writer) =>
+            {
+                writer.Write(1234);
+                writer.Write(4321);
+            }));
 
             Assert.Equal(1234, result.A);
             Assert.Equal(4321, result.B);
@@ -124,19 +120,15 @@ namespace SpracheBinary.Tests
         [Fact]
         public void TestSimpleUInt32()
         {
-            var memoryStream = new MemoryStream();
-            var writer = new BinaryWriter(memoryStream);
-            writer.Write(1234u);
-            writer.Write(4321u);
-            writer.Flush();
-
             var parser = from a in Parse.UInt32
                          from b in Parse.UInt32
                          select new { A = a, B = b };
 
-            memoryStream.Position = 0;
-
-            var result = parser.Parse(memoryStream);
+            var result = parser.Parse(CreateMemoryStream((writer) =>
+            {
+                writer.Write(1234u);
+                writer.Write(4321u);
+            }));
 
             Assert.Equal(1234u, result.A);
             Assert.Equal(4321u, result.B);
@@ -145,19 +137,15 @@ namespace SpracheBinary.Tests
         [Fact]
         public void TestSimpleSingles()
         {
-            var memoryStream = new MemoryStream();
-            var writer = new BinaryWriter(memoryStream);
-            writer.Write(1.0f);
-            writer.Write(2.0f);
-            writer.Flush();
-
             var parser = from a in Parse.Single
                          from b in Parse.Single
                          select new { A = a, B = b };
 
-            memoryStream.Position = 0;
-
-            var result = parser.Parse(memoryStream);
+            var result = parser.Parse(CreateMemoryStream((writer) =>
+            {
+                writer.Write(1.0f);
+                writer.Write(2.0f);
+            }));
 
             Assert.Equal(1.0f, result.A);
             Assert.Equal(2.0f, result.B);
@@ -166,19 +154,15 @@ namespace SpracheBinary.Tests
         [Fact]
         public void TestSimpleDoubles()
         {
-            var memoryStream = new MemoryStream();
-            var writer = new BinaryWriter(memoryStream);
-            writer.Write(1.0d);
-            writer.Write(2.0d);
-            writer.Flush();
-
             var parser = from a in Parse.Double
                          from b in Parse.Double
                          select new { A = a, B = b };
 
-            memoryStream.Position = 0;
-
-            var result = parser.Parse(memoryStream);
+            var result = parser.Parse(CreateMemoryStream((writer) =>
+            {
+                writer.Write(1.0d);
+                writer.Write(2.0d);
+            }));
 
             Assert.Equal(1.0d, result.A);
             Assert.Equal(2.0d, result.B);
