@@ -1,6 +1,6 @@
 using System;
 
-namespace SpracheBinary.Tests.SCM
+namespace Sprache.Binary.Tests.SCM
 {
   [AttributeUsage(AttributeTargets.Struct)]
   public class OpcodeAttribute : System.Attribute

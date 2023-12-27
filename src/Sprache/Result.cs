@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace SpracheBinary
+namespace Sprache.Binary
 {
     /// <summary>
     /// Contains helper functions to create <see cref="IResult&lt;T&gt;"/> instances.

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace SpracheBinary.Tests
+namespace Sprache.Binary.Tests
 {
     static class AssertInput
     {

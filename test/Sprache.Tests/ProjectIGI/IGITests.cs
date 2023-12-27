@@ -2,7 +2,7 @@ using System.Diagnostics;
 using System.IO;
 using Xunit;
 
-namespace SpracheBinary.Tests.ProjectIGI
+namespace Sprache.Binary.Tests.ProjectIGI
 {
   public class IGITests
   {

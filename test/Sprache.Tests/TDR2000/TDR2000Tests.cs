@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Linq;
-using SpracheBinary;
+using Sprache.Binary;
 using Xunit;
 
-namespace SpracheBinary.Tests.TDR2000
+namespace Sprache.Binary.Tests.TDR2000
 {
   public struct TBlock
   {

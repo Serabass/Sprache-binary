@@ -5,7 +5,7 @@ using System.Text;
 using System.Security.Cryptography;
 using Xunit;
 
-namespace SpracheBinary.Tests.SCM
+namespace Sprache.Binary.Tests.SCM
 {
   public class SCMTests
   {

@@ -1,7 +1,7 @@
 ﻿using System;
 using Xunit;
 
-namespace SpracheBinary.Tests
+namespace Sprache.Binary.Tests
 {
     public class InputTests
     {

@@ -1,4 +1,4 @@
-﻿namespace SpracheBinary
+﻿namespace Sprache.Binary
 {
     using System;
     using System.Collections.Generic;
