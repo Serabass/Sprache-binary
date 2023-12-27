@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Security.Cryptography;
 using Xunit;
+using Sprache.Binary;
 
 namespace Sprache.Binary.Tests.SCM
 {

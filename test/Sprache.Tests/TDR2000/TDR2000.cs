@@ -2,9 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using SpracheBinary;
+using System.Text;
+using Sprache.Binary;
 
-namespace SpracheBinary.Tests.TDR2000
+namespace Sprache.Binary.Tests.TDR2000
 {
   public struct TBlock
   {
@@ -66,7 +67,7 @@ namespace SpracheBinary.Tests.TDR2000
       pakStream.Seek(offset, SeekOrigin.Begin);
       var reader = new BinaryReader(pakStream);
       var data = reader.ReadBytes(size);
-      var content = System.Text.Encoding.UTF8.GetString(data); //.Reverse().Aggregate("", (acc, ch) => acc + ch).Trim();
+      var content = Encoding.UTF8.GetString(data); //.Reverse().Aggregate("", (acc, ch) => acc + ch).Trim();
 
       return new PakEntry
       {
