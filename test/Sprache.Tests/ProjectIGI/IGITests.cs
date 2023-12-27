@@ -11,7 +11,7 @@ namespace Sprache.Binary.Tests.ProjectIGI
     {
       var file = @"M:\Program Files (x86)\IGI Collection\Project IGI\pc\weapons\AK47\weapon.qvm";
       using Stream s = File.OpenRead(file);
-      var parser = from header in Parse.ConstString("LOOP")
+      var parser = from header in Parse.ASCIIConstString("LOOP")
                    from i in Parse.Int32.Repeat(15)
                    from clip in Parse.Int32
                    from ii in Parse.Int32.Repeat(6)

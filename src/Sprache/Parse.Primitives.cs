@@ -73,10 +73,16 @@ namespace Sprache.Binary
                                                           from bytes in AnyByte.Repeat(length)
                                                           select bytes.ToArray();
 
-        public static Parser<string> ConstString(string value)
+        public static Parser<string> ASCIIConstString(string value)
         {
             return from bytes in AnyByte.Repeat(value.Length)
-                   where Encoding.ASCII.GetString(bytes.ToArray()) == value // or UTF8?
+                   where Encoding.ASCII.GetString(bytes.ToArray()) == value
+                   select value;
+        }
+        public static Parser<string> UTF8ConstString(string value)
+        {
+            return from bytes in AnyByte.Repeat(value.Length)
+                   where Encoding.UTF8.GetString(bytes.ToArray()) == value
                    select value;
         }
     }

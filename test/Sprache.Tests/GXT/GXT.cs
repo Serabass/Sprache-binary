@@ -10,7 +10,7 @@ namespace Sprache.Binary.Tests.GXT
       select Encoding.ASCII.GetString(str.ToArray()).TrimEnd('\0');
 
     private static Parser<int> Header =
-      from tabl in Parse.ConstString("TABL")
+      from tabl in Parse.ASCIIConstString("TABL")
       from size in Parse.Int32
       select size;
 
@@ -24,7 +24,7 @@ namespace Sprache.Binary.Tests.GXT
       };
 
     private static Parser<int> Tkeys =
-      from tkey in Parse.ConstString("TKEY")
+      from tkey in Parse.ASCIIConstString("TKEY")
       from size in Parse.Int32
       select size;
 
@@ -47,7 +47,7 @@ namespace Sprache.Binary.Tests.GXT
       };
 
     public static Parser<TABLBlock> Tabl =
-      from TABL in Parse.ConstString("TABL")
+      from TABL in Parse.ASCIIConstString("TABL")
       from size in Parse.Int32
       from entries in TablEntry.Repeat(size / 12)
       select new TABLBlock
@@ -57,7 +57,7 @@ namespace Sprache.Binary.Tests.GXT
       };
 
     public static Parser<TKEYBlock> Tkey =
-      from TKEY in Parse.ConstString("TKEY")
+      from TKEY in Parse.ASCIIConstString("TKEY")
       from size in Parse.Int32
       from entries in TkeyEntry.Repeat(size / 12)
       select new TKEYBlock
@@ -77,7 +77,7 @@ namespace Sprache.Binary.Tests.GXT
       select c1.TrimEnd('\0');
 
     public static Parser<TDATBlock> Tdat =
-      from TDAT in Parse.ConstString("TDAT")
+      from TDAT in Parse.ASCIIConstString("TDAT")
       from size in Parse.Int32
       from strings in GXTString.Many()
       select new TDATBlock
@@ -97,10 +97,10 @@ namespace Sprache.Binary.Tests.GXT
 
     public static Parser<TKEYTable> TKEyTable =
       from Name in String8
-      from tkeyConst in Parse.ConstString("TKEY")
+      from tkeyConst in Parse.ASCIIConstString("TKEY")
       from tkeySize in Parse.Int32
       from keys in TKeyTableKey.Repeat(tkeySize / 12)
-      from tdatConst in Parse.ConstString("TDAT")
+      from tdatConst in Parse.ASCIIConstString("TDAT")
       from tdatSize in Parse.Int32
       from strings in GXTString.Many()
       select new TKEYTable
