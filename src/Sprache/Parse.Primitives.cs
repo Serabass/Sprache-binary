@@ -9,6 +9,12 @@ namespace Sprache.Binary
         /// <summary>
         /// Parses a Short (2 bytes) from the input.
         /// </summary>
+        public static readonly Parser<byte> Int8 = from @byte in AnyByte
+                                                   select @byte;
+
+        /// <summary>
+        /// Parses a Short (2 bytes) from the input.
+        /// </summary>
         public static readonly Parser<short> Int16 = from bytes in AnyByte.Repeat(2)
                                                      select BitConverter.ToInt16(bytes.ToArray(), 0);
 
