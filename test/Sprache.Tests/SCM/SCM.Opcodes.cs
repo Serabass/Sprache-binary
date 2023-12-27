@@ -3,14 +3,9 @@ using System;
 namespace Sprache.Binary.Tests.SCM
 {
   [AttributeUsage(AttributeTargets.Struct)]
-  public class OpcodeAttribute : System.Attribute
+  public class OpcodeAttribute(SCMOpcode opcode) : Attribute
   {
-    public OpcodeAttribute(SCMOpcode opcode)
-    {
-      this.opcode = opcode;
-    }
-
-    public SCMOpcode opcode;
+    public SCMOpcode opcode = opcode;
   }
 
   [Obsolete("This is a test struct, not a real SCM struct. It is only used to test the parser.")]

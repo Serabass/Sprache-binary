@@ -16,9 +16,21 @@ namespace Sprache.Binary.Tests.ZIP
 
   public class ZIPParser
   {
+    public IEnumerator<Parser<byte>> Parse1(Stream stream)
+    {
+      yield return Parse.Byte(0x50);
+      yield return Parse.Byte(0x50);
+      yield return Parse.Byte(0x50);
+      yield return Parse.Byte(0x50);
+      yield return Parse.Byte(0x50);
+      yield return Parse.Byte(0x50);
+      yield return Parse.Byte(0x50);
+      yield return Parse.Byte(0x50);
+    }
+
     public static Parser<string> zipMagic =
-      from header1 in Parse.Byte(0x50) // PK
-      from header2 in Parse.Byte(0x4B) // PK
+      from header1 in Parse.Byte(0x50) // P
+      from header2 in Parse.Byte(0x4B) // K
       select "PK";
 
     public static Parser<ZIPSectionType> zipHeader =
