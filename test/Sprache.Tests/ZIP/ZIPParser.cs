@@ -16,17 +16,17 @@ namespace Sprache.Binary.Tests.ZIP
 
   public class ZIPParser
   {
-    private static Parser<string> zipMagic =
+    public static Parser<string> zipMagic =
       from header1 in Parse.Byte(0x50) // PK
       from header2 in Parse.Byte(0x4B) // PK
       select "PK";
 
-    private static Parser<ZIPSectionType> zipHeader =
+    public static Parser<ZIPSectionType> zipHeader =
       from Magic in zipMagic
       from sectionType in Parse.UInt16
       select (ZIPSectionType)sectionType;
 
-    private static Parser<IEnumerable<byte>> zipSectionHeader =
+    public static Parser<IEnumerable<byte>> zipSectionHeader =
       from version in Parse.UInt16
       from flags in Parse.UInt16
       from compressionMethod in Parse.UInt16
@@ -41,9 +41,10 @@ namespace Sprache.Binary.Tests.ZIP
       from extraField in Parse.AnyByte.Repeat(extraFieldLength)
       select header;
 
-    private static Parser<IEnumerable<byte>> zipSection = from h in zipHeader
-                                                          from header in zipSectionHeader
-                                                          select header;
+    public static Parser<IEnumerable<byte>> zipSection =
+      from h in zipHeader
+      from header in zipSectionHeader
+      select header;
 
     public static IEnumerable<byte> ParseStream(Stream stream)
     {

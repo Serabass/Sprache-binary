@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Security.Cryptography;
+using Sprache.Binary.Tests.ZIP;
 using Xunit;
 
 namespace Sprache.Binary.Tests
@@ -17,7 +18,7 @@ namespace Sprache.Binary.Tests
             var hashString = BitConverter.ToString(hash).Replace("-", "").ToLowerInvariant();
             Assert.Equal("16c3bb924fae0e9de45107994716593c", hashString);
 
-            var result = zipSection.Parse(stream);
+            var result = ZIPParser.zipSection.Parse(stream);
             Assert.Equal(2, 2);
         }
     }
