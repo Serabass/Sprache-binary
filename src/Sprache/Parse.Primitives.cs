@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Text;
 
-namespace SpracheBinary
+namespace Sprache.Binary
 {
     partial class Parse
     {

@@ -1,7 +1,7 @@
 ﻿using Xunit;
 using System;
 
-namespace SpracheBinary.Tests.Scenarios
+namespace Sprache.Binary.Tests.Scenarios
 {
     public class StarDateTest
     {

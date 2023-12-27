@@ -2,7 +2,7 @@ using System.IO;
 using System.Security.Cryptography;
 using Xunit;
 
-namespace SpracheBinary.Tests.GXT
+namespace Sprache.Binary.Tests.GXT
 {
   public class GXTTests
   {

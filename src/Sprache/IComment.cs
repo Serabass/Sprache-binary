@@ -1,4 +1,4 @@
-﻿namespace SpracheBinary
+﻿namespace Sprache.Binary
 {
     /// <summary>
     /// Represents a customizable comment parser.

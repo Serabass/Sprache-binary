@@ -4,7 +4,7 @@ using System.IO;
 using System.Linq;
 using Xunit;
 
-namespace SpracheBinary.Tests
+namespace Sprache.Binary.Tests
 {
     static class AssertParser
     {

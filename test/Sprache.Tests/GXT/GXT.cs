@@ -1,7 +1,7 @@
 using System.Linq;
 using System.Text;
 
-namespace SpracheBinary.Tests.GXT
+namespace Sprache.Binary.Tests.GXT
 {
   class GTXReader
   {

@@ -1,6 +1,6 @@
 using Xunit;
 
-namespace SpracheBinary.Tests.TDR2000
+namespace Sprache.Binary.Tests.TDR2000
 {
   public class TDR2000Tests
   {

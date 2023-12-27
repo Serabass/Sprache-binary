@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 
-namespace SpracheBinary
+namespace Sprache.Binary
 {
     /// <summary>
     /// Represents a parser.
@@ -51,7 +51,7 @@ namespace SpracheBinary
         /// <param name="parser">The parser.</param>
         /// <param name="input">The input.</param>
         /// <returns>The result of the parser.</returns>
-        /// <exception cref="SpracheBinary.ParseException">It contains the details of the parsing error.</exception>
+        /// <exception cref="ParseException">It contains the details of the parsing error.</exception>
         public static T Parse<T>(this Parser<T> parser, Stream input)
         {
             if (parser == null) throw new ArgumentNullException(nameof(parser));
@@ -73,7 +73,7 @@ namespace SpracheBinary
         /// <param name="parser">The parser.</param>
         /// <param name="input">The input.</param>
         /// <returns>The result of the parser.</returns>
-        /// <exception cref="SpracheBinary.ParseException">It contains the details of the parsing error.</exception>
+        /// <exception cref="ParseException">It contains the details of the parsing error.</exception>
         public static T Parse<T>(this Parser<T> parser, byte[] input)
         {
             return Parse(parser, new MemoryStream(input));

@@ -1,4 +1,4 @@
-﻿namespace SpracheBinary.Tests
+﻿namespace Sprache.Binary.Tests
 {
     class PosAwareStr : IPositionAware<PosAwareStr>
     {

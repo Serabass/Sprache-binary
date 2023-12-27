@@ -7,7 +7,7 @@ using System.Linq;
 // ReSharper disable InconsistentNaming
 // ReSharper disable UnusedMember.Global
 
-namespace SpracheBinary
+namespace Sprache.Binary
 {
     /// <summary>
     /// Parsers and combinators.

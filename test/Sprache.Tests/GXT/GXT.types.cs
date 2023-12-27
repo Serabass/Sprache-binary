@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace SpracheBinary.Tests.GXT
+namespace Sprache.Binary.Tests.GXT
 {
   public struct GXTDocument
   {

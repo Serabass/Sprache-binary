@@ -1,5 +1,5 @@
 ﻿
-namespace SpracheBinary
+namespace Sprache.Binary
 {
     /// <summary>
     /// An interface for objects that have a source <see cref="Position"/>.

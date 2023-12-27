@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace SpracheBinary
+namespace Sprache.Binary
 {
     /// <summary>
     /// Represents an error that occurs during parsing.
