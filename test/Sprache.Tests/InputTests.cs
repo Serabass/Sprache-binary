@@ -19,7 +19,7 @@ namespace Sprache.Binary.Tests
         [Fact]
         public void InputsOnTheSameString_AtDifferentPositions_AreNotEqual()
         {
-            var s = new byte[] { 1, 2, 3, 4, 5 };
+            byte[] s = [1, 2, 3, 4, 5];
             var i1 = new Input(s, 1);
             var i2 = new Input(s, 2);
             Assert.NotEqual(i1, i2);
@@ -38,15 +38,15 @@ namespace Sprache.Binary.Tests
         [Fact]
         public void InputsAtEnd_CannotAdvance()
         {
-            var i = new Input(Array.Empty<byte>(), 0);
+            var i = new Input([], 0);
             Assert.True(i.AtEnd);
-            Assert.Throws<InvalidOperationException>(() => i.Advance());
+            Assert.Throws<InvalidOperationException>(i.Advance);
         }
 
         [Fact]
         public void AdvancingInput_MovesForwardOneCharacter()
         {
-            var i = new Input(new byte[] { 1, 2, 3, 4, 5 }, 1);
+            var i = new Input([1, 2, 3, 4, 5], 1);
             var j = i.Advance();
             Assert.Equal(2, j.Position);
         }
@@ -54,14 +54,14 @@ namespace Sprache.Binary.Tests
         [Fact]
         public void CurrentCharacter_ReflectsPosition()
         {
-            var i = new Input(new byte[] { 1, 2, 3, 4, 5 }, 1);
+            var i = new Input([1, 2, 3, 4, 5], 1);
             Assert.Equal(2, i.Current);
         }
 
         [Fact]
         public void ANewInput_WillBeAtFirstCharacter()
         {
-            var i = new Input(new byte[] { 1, 2, 3, 4, 5 });
+            var i = new Input([1, 2, 3, 4, 5]);
             Assert.Equal(0, i.Position);
         }
     }

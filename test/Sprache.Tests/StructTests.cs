@@ -28,7 +28,7 @@ namespace Sprache.Binary.Tests
                          from b in Parse.AnyByte
                          select new RGB { R = r, G = g, B = b };
 
-            var memoryStream = new MemoryStream(new byte[] { 255, 0, 0 });
+            var memoryStream = new MemoryStream([255, 0, 0]);
             var rgb = parser.Parse(memoryStream);
 
             Assert.Equal(255, rgb.R);

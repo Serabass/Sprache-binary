@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Xunit;
 
@@ -9,19 +10,19 @@ namespace Sprache.Binary.Tests
         [Fact]
         public void Parser_OfByte_AcceptsThatByte()
         {
-            AssertParser.SucceedsWithOne(Parse.Byte(0).Once(), new byte[] { 0 } , (byte)0);
+            AssertParser.SucceedsWithOne<byte>(Parse.Byte(0).Once(), [0], 0);
         }
 
         [Fact]
         public void Parser_OfChar_AcceptsOnlyOneChar()
         {
-            AssertParser.SucceedsWithOne(Parse.Byte(0).Once(), new byte[] { 0, 0, 0 }, (byte)0);
+            AssertParser.SucceedsWithOne<byte>(Parse.Byte(0).Once(), [0, 0, 0], 0);
         }
 
         [Fact]
         public void Parser_OfChar_DoesNotAcceptNonMatchingChar()
         {
-            AssertParser.FailsAt(Parse.Byte(0).Once(), new byte[] { 1, 0, 0 }, 0);
+            AssertParser.FailsAt(Parse.Byte(0).Once(), [1, 0, 0], 0);
         }
 
         [Fact]
@@ -34,18 +35,18 @@ namespace Sprache.Binary.Tests
         public void Parser_OfChars_AcceptsAnyOfThoseChars()
         {
             var parser = Parse.Bytes(0, 1, 2).Once();
-            AssertParser.SucceedsWithOne(parser, new byte[] {0}, (byte)0);
-            AssertParser.SucceedsWithOne(parser, new byte[] {1}, (byte)1);
-            AssertParser.SucceedsWithOne(parser, new byte[] {2}, (byte)2);
+            AssertParser.SucceedsWithOne<byte>(parser, [0], 0);
+            AssertParser.SucceedsWithOne<byte>(parser, [1], 1);
+            AssertParser.SucceedsWithOne<byte>(parser, [2], 2);
         }
 
         [Fact]
         public void Parser_OfChars_UsingString_AcceptsAnyOfThoseChars()
         {
-            var parser = Parse.Bytes(new byte[] {0, 1, 2}).Once();
-            AssertParser.SucceedsWithOne(parser, new byte[] {0}, (byte)0);
-            AssertParser.SucceedsWithOne(parser, new byte[] {1}, (byte)1);
-            AssertParser.SucceedsWithOne(parser, new byte[] {2}, (byte)2);
+            var parser = Parse.Bytes([0, 1, 2]).Once();
+            AssertParser.SucceedsWithOne<byte>(parser, [0], 0);
+            AssertParser.SucceedsWithOne<byte>(parser, [1], 1);
+            AssertParser.SucceedsWithOne<byte>(parser, [2], 2);
         }
 
         [Fact]
@@ -57,7 +58,7 @@ namespace Sprache.Binary.Tests
         [Fact]
         public void Parser_OfManyChars_AcceptsManyChars()
         {
-            AssertParser.SucceedsWithAll(Parse.Byte(0).Many(), new byte[] {0, 0, 0});
+            AssertParser.SucceedsWithAll(Parse.Byte(0).Many(), [0, 0, 0]);
         }
 
         [Fact]
@@ -69,13 +70,13 @@ namespace Sprache.Binary.Tests
         [Fact]
         public void Parser_OfAtLeastOneChar_AcceptsOneChar()
         {
-            AssertParser.SucceedsWithAll(Parse.Byte(0).AtLeastOnce(), new byte[] {0});
+            AssertParser.SucceedsWithAll(Parse.Byte(0).AtLeastOnce(), [0]);
         }
 
         [Fact]
         public void Parser_OfAtLeastOneChar_AcceptsManyChars()
         {
-            AssertParser.SucceedsWithAll(Parse.Byte(0).AtLeastOnce(), new byte[] {0, 0, 0});
+            AssertParser.SucceedsWithAll(Parse.Byte(0).AtLeastOnce(), [0, 0, 0]);
         }
 
         [Fact]
@@ -83,21 +84,21 @@ namespace Sprache.Binary.Tests
         {
             var p = Parse.Byte(0).Once().Then(a =>
                 Parse.Byte(1).Once().Select(b => a.Concat(b)));
-            AssertParser.SucceedsWithAll(p, new byte[] {0, 1});
+            AssertParser.SucceedsWithAll(p, [0, 1]);
         }
 
         [Fact]
         public void ReturningValue_DoesNotAdvanceInput()
         {
             var p = Parse.Return(1);
-            AssertParser.SucceedsWith(p, new byte[] {0, 1, 2}, n => Assert.Equal(1, n));
+            AssertParser.SucceedsWith(p, [0, 1, 2], n => Assert.Equal(1, n));
         }
 
         [Fact]
         public void ReturningValue_ReturnsValueAsResult()
         {
             var p = Parse.Return(1);
-            var r = (Result<int>)p.TryParse(new byte[] {0, 1, 2});
+            var r = (Result<int>)p.TryParse([0, 1, 2]);
             Assert.Equal(0, r.Remainder.Position);
         }
 
@@ -109,14 +110,14 @@ namespace Sprache.Binary.Tests
                     from cs in Parse.Byte(2).AtLeastOnce()
                     select a.Concat(bs).Concat(cs);
 
-            AssertParser.SucceedsWithAll(p, new byte[] {0, 1, 1, 1, 2,});
+            AssertParser.SucceedsWithAll(p, [0, 1, 1, 1, 2,]);
         }
 
         [Fact]
         public void WhenFirstOptionSucceedsButConsumesNothing_SecondOptionTried()
         {
             var p = Parse.Byte(0).Many().XOr(Parse.Byte(1).Many());
-            AssertParser.SucceedsWithAll(p, new byte[] {1, 1, 1});
+            AssertParser.SucceedsWithAll(p, [1, 1, 1]);
         }
 
         [Fact]
@@ -125,7 +126,7 @@ namespace Sprache.Binary.Tests
             var first = Parse.Byte(0).Once().Concat(Parse.Byte(1).Once());
             var second = Parse.Byte(0).Once();
             var p = first.XOr(second);
-            AssertParser.FailsAt(p, new byte[] { 0 }, 1);
+            AssertParser.FailsAt(p, [0], 1);
         }
 
         [Fact]
@@ -134,14 +135,14 @@ namespace Sprache.Binary.Tests
             var first = Parse.Byte(0).Once().Concat(Parse.Byte(1).Once());
             var second = Parse.Byte(0).Once();
             var p = first.Or(second);
-            AssertParser.SucceedsWithAll(p, new byte[] { 0 });
+            AssertParser.SucceedsWithAll(p, [0]);
         }
 
         [Fact]
         public void ParsesString_AsSequenceOfChars()
         {
-            var p = Parse.ByteSequence(new byte[] { 0, 1, 2 });
-            AssertParser.SucceedsWithAll(p, new byte[] { 0, 1, 2 });
+            var p = Parse.ByteSequence([0, 1, 2]);
+            AssertParser.SucceedsWithAll(p, [0, 1, 2]);
         }
 
         [Fact]
@@ -153,9 +154,9 @@ namespace Sprache.Binary.Tests
 
             var p = ab.Many().End();
 
-            AssertParser.FailsAt(p, new byte[] { 0, 1, 0, 1, 0, 2 }, 4);
+            AssertParser.FailsAt(p, [0, 1, 0, 1, 0, 2], 4);
         }
-    
+
         [Fact]
         public void WithXMany_WhenLastElementFails_FailureReportedAtLastElement()
         {
@@ -165,7 +166,7 @@ namespace Sprache.Binary.Tests
 
             var p = ab.XMany().End();
 
-            AssertParser.FailsAt(p, new byte[] { 0, 1, 0, 1, 0, 2 }, 5);
+            AssertParser.FailsAt(p, [0, 1, 0, 1, 0, 2], 5);
         }
     }
 }
