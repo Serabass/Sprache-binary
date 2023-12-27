@@ -7,7 +7,7 @@ namespace Sprache.Binary
     partial class Parse
     {
         /// <summary>
-        /// Parses a Short (2 bytes) from the input.
+        /// Parses a Byte from the input.
         /// </summary>
         public static readonly Parser<byte> Int8 = from @byte in AnyByte
                                                    select @byte;
