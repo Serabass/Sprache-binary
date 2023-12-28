@@ -6,6 +6,7 @@ namespace Sprache.Binary.Tests
 {
     public class StructTests
     {
+        [Obsolete("Use Parse instead")]
         private MemoryStream BuildMemoryStream(Action<BinaryWriter> predicate)
         {
             var memoryStream = new MemoryStream();
@@ -43,11 +44,11 @@ namespace Sprache.Binary.Tests
                          from b in Parse.AnyByte
                          select new { A = a, B = b };
 
-            var bytes = parser.Parse(BuildMemoryStream((writer) =>
+            var bytes = parser.Parse((writer) =>
             {
                 writer.Write((byte)255);
                 writer.Write((byte)213);
-            }));
+            });
 
             Assert.Equal(255, bytes.A);
             Assert.Equal(213, bytes.B);
@@ -57,10 +58,10 @@ namespace Sprache.Binary.Tests
         public void TestSimpleSingle()
         {
             var parser = Parse.Single;
-            var result = parser.Parse(BuildMemoryStream((writer) =>
+            var result = parser.Parse((writer) =>
             {
                 writer.Write(1.0f);
-            }));
+            });
 
             Assert.Equal(1.0f, result);
         }
@@ -69,10 +70,10 @@ namespace Sprache.Binary.Tests
         public void TestSimpleDouble()
         {
             var parser = Parse.Double;
-            var result = parser.Parse(BuildMemoryStream((writer) =>
+            var result = parser.Parse((writer) =>
             {
                 writer.Write(1.0d);
-            }));
+            });
 
             Assert.Equal(1.0d, result);
         }
@@ -84,11 +85,11 @@ namespace Sprache.Binary.Tests
                          from b in Parse.Int16
                          select new { A = a, B = b };
 
-            var result = parser.Parse(BuildMemoryStream((writer) =>
+            var result = parser.Parse((writer) =>
             {
                 writer.Write((short)1234);
                 writer.Write((short)4321);
-            }));
+            });
             Assert.Equal(1234, result.A);
             Assert.Equal(4321, result.B);
         }
@@ -100,11 +101,11 @@ namespace Sprache.Binary.Tests
                          from b in Parse.UInt16
                          select new { A = a, B = b };
 
-            var result = parser.Parse(BuildMemoryStream((writer) =>
+            var result = parser.Parse((writer) =>
             {
                 writer.Write((ushort)1234);
                 writer.Write((ushort)4321);
-            }));
+            });
 
             Assert.Equal(1234u, result.A);
             Assert.Equal(4321u, result.B);
@@ -117,11 +118,11 @@ namespace Sprache.Binary.Tests
                          from b in Parse.Int32
                          select new { A = a, B = b };
 
-            var result = parser.Parse(BuildMemoryStream((writer) =>
+            var result = parser.Parse((writer) =>
             {
                 writer.Write(1234);
                 writer.Write(4321);
-            }));
+            });
 
             Assert.Equal(1234, result.A);
             Assert.Equal(4321, result.B);
@@ -134,11 +135,11 @@ namespace Sprache.Binary.Tests
                          from b in Parse.UInt32
                          select new { A = a, B = b };
 
-            var result = parser.Parse(BuildMemoryStream((writer) =>
+            var result = parser.Parse((writer) =>
             {
                 writer.Write(1234u);
                 writer.Write(4321u);
-            }));
+            });
 
             Assert.Equal(1234u, result.A);
             Assert.Equal(4321u, result.B);
@@ -151,11 +152,11 @@ namespace Sprache.Binary.Tests
                          from b in Parse.Int64
                          select new { A = a, B = b };
 
-            var result = parser.Parse(BuildMemoryStream((writer) =>
+            var result = parser.Parse((writer) =>
             {
                 writer.Write(1234L);
                 writer.Write(4321L);
-            }));
+            });
 
             Assert.Equal(1234L, result.A);
             Assert.Equal(4321L, result.B);
@@ -168,11 +169,11 @@ namespace Sprache.Binary.Tests
                          from b in Parse.UInt64
                          select new { A = a, B = b };
 
-            var result = parser.Parse(BuildMemoryStream((writer) =>
+            var result = parser.Parse((writer) =>
             {
                 writer.Write(1234Lu);
                 writer.Write(4321Lu);
-            }));
+            });
 
             Assert.Equal(1234Lu, result.A);
             Assert.Equal(4321Lu, result.B);
@@ -185,11 +186,11 @@ namespace Sprache.Binary.Tests
                          from b in Parse.Single
                          select new { A = a, B = b };
 
-            var result = parser.Parse(BuildMemoryStream((writer) =>
+            var result = parser.Parse((writer) =>
             {
                 writer.Write(1.0f);
                 writer.Write(2.0f);
-            }));
+            });
 
             Assert.Equal(1.0f, result.A);
             Assert.Equal(2.0f, result.B);
@@ -202,11 +203,11 @@ namespace Sprache.Binary.Tests
                          from b in Parse.Double
                          select new { A = a, B = b };
 
-            var result = parser.Parse(BuildMemoryStream((writer) =>
+            var result = parser.Parse((writer) =>
             {
                 writer.Write(1.0d);
                 writer.Write(2.0d);
-            }));
+            });
 
             Assert.Equal(1.0d, result.A);
             Assert.Equal(2.0d, result.B);

@@ -57,14 +57,34 @@ namespace Sprache.Binary
             if (input == null) throw new ArgumentNullException(nameof(input));
 
             var result = parser.TryParse(input);
-            
+
             if(result.WasSuccessful)
                 return result.Value;
 
             throw new ParseException(result.ToString(), Position.FromInput(result.Remainder));
         }
 
-        
+        /// <summary>
+        /// Parses the specified input string.
+        /// </summary>
+        /// <typeparam name="T">The type of the result.</typeparam>
+        /// <param name="parser">The parser.</param>
+        /// <param name="predicate">The input.</param>
+        /// <returns>The result of the parser.</returns>
+        /// <exception cref="ParseException">It contains the details of the parsing error.</exception>
+        public static T Parse<T>(this Parser<T> parser, Action<BinaryWriter> predicate)
+        {
+            var memoryStream = new MemoryStream();
+            var writer = new BinaryWriter(memoryStream);
+            {
+                predicate(writer);
+                writer.Flush();
+            }
+            memoryStream.Position = 0;
+            return Parse(parser, memoryStream);
+        }
+
+
         /// <summary>
         /// Parses the specified input string.
         /// </summary>
@@ -77,6 +97,6 @@ namespace Sprache.Binary
         {
             return Parse(parser, new MemoryStream(input));
         }
-        
+
     }
 }
