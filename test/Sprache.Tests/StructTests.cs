@@ -265,6 +265,26 @@ namespace Sprache.Binary.Tests
 
             memoryStream.Position = 0;
 
+            Assert.Equal([
+                0xFF,
+
+                0x39,
+                0x30,
+
+                0xC7,
+                0xED,
+                0x48,
+                0x03,
+
+                0x48,
+                0x65,
+                0x6C,
+                0x6C,
+                0x6F,
+
+                0x00,
+            ], memoryStream.ToArray());
+
             var parser = from b in Parse.AnyByte
                          from i16 in Parse.Int16
                          from i32 in Parse.Int32
