@@ -31,6 +31,7 @@ namespace Sprache.Binary.Tests.ZIP
     PPMD = 98,
     AEX_ENCRYPTION_MARKER = 99,
   }
+
   public enum ZIPSectionType
   {
     CENTAL_DIR_ENTRY = 0x0201,
@@ -55,25 +56,52 @@ namespace Sprache.Binary.Tests.ZIP
     public string comment;
   }
 
-  public abstract class ZIPSection
+  public class ZIPSection
   {
     public ZIPSectionType type;
     public ZIPSectionBody body;
   }
 
-  public struct ZIPSectionBody
+  public abstract class ZIPSectionBody
   {
-    public ZIPSectionType type;
-    public ZIPFileHeader header;
-    public IEnumerable<byte> body;
 
-    public IEnumerable<byte> GetBody()
-    {
-      throw new NotImplementedException();
-    }
   }
 
-  public class ZIPLocalFileHeader : ZIPSection
+  public class ZIPLocalFile : ZIPSectionBody
+  {
+    public ZIPFileHeader header;
+    public IEnumerable<byte> body;
+  }
+
+  public class ZIPCentralDirEntry : ZIPSectionBody
+  {
+    public ushort versionMadeBy;
+    public ushort versionNeededToExtract;
+    public ushort flags;
+    public CompressionMethod compressionMethod;
+    public uint fileModTime;
+    public uint crc32;
+    public int compressedSize;
+    public int uncompressedSize;
+    public ushort fileNameLength;
+    public ushort extraFieldLength;
+    public ushort fileCommentLength;
+    public ushort diskNumberStart;
+    public ushort internalFileAttributes;
+    public uint externalFileAttributes;
+    public uint relativeOffsetOfLocalHeader;
+    public string fileName;
+    public IEnumerable<byte> extraField;
+    public string fileComment;
+    public ZIPSection localHeader;
+  }
+
+  public class ZIPEndOfCentralDir : ZIPSectionBody
+  {
+
+  }
+
+  public class ZIPLocalFileHeader
   {
     public ZIPFileHeader header;
   }
@@ -88,15 +116,11 @@ namespace Sprache.Binary.Tests.ZIP
     public static Parser<ZIPSection> zipSection =
       from Magic in zipMagic
       from sectionType in Parse.UInt16
-      from body in zipSectionBody(sectionType)
-      select sectionType switch
+      from body in zipSectionBody((ZIPSectionType)sectionType)
+      select new ZIPSection
       {
-        0x0403 => new ZIPLocalFileHeader
-        {
-          type = ZIPSectionType.LOCAL_FILE_HEADER,
-          body = body,
-        },
-        _ => throw new NotImplementedException(),
+        type = (ZIPSectionType)sectionType,
+        body = body,
       };
 
     private static Parser<CompressionMethod> compressionMethod =
@@ -133,15 +157,72 @@ namespace Sprache.Binary.Tests.ZIP
         comment = Encoding.UTF8.GetString(comment.ToArray()),
       };
 
-    public static Parser<ZIPSectionBody> zipSectionBody(int type) =>
+    public static Parser<ZIPFileHeader> zipLocalFileHeader =
       from header in zipFileHeader
+      select header;
+
+    public static Parser<ZIPLocalFile> zipLocalFile =
+      from header in zipLocalFileHeader
       from body in Parse.AnyByte.Repeat(header.compressedSize)
-      select new ZIPSectionBody
+      select new ZIPLocalFile
       {
-        type = ZIPSectionType.LOCAL_FILE_HEADER,
         header = header,
         body = body,
       };
+
+    public static Parser<ZIPCentralDirEntry> zipCentralDirEntry =
+      from versionMadeBy in Parse.UInt16
+      from versionNeededToExtract in Parse.UInt16
+      from flags in Parse.UInt16
+      from compressionMethod in compressionMethod
+      from fileModTime in Parse.UInt32
+      from crc32 in Parse.UInt32
+      from compressedSize in Parse.Int32
+      from uncompressedSize in Parse.Int32
+      from fileNameLength in Parse.UInt16
+      from extraFieldLength in Parse.UInt16
+      from fileCommentLength in Parse.UInt16
+      from diskNumberStart in Parse.UInt16
+      from internalFileAttributes in Parse.UInt16
+      from externalFileAttributes in Parse.UInt32
+      from relativeOffsetOfLocalHeader in Parse.UInt32
+      from fileName in Parse.FixedString(fileNameLength)
+      from extraField in Parse.AnyByte.Repeat(extraFieldLength)
+      from fileComment in Parse.FixedString(fileCommentLength)
+      from localHeader in zipSection
+      select new ZIPCentralDirEntry
+      {
+        versionMadeBy = versionMadeBy,
+        versionNeededToExtract = versionNeededToExtract,
+        flags = flags,
+        compressionMethod = compressionMethod,
+        fileModTime = fileModTime,
+        crc32 = crc32,
+        compressedSize = compressedSize,
+        uncompressedSize = uncompressedSize,
+        fileNameLength = fileNameLength,
+        extraFieldLength = extraFieldLength,
+        fileCommentLength = fileCommentLength,
+        diskNumberStart = diskNumberStart,
+        internalFileAttributes = internalFileAttributes,
+        externalFileAttributes = externalFileAttributes,
+        relativeOffsetOfLocalHeader = relativeOffsetOfLocalHeader,
+        fileName = fileName,
+        extraField = extraField,
+        fileComment = fileComment,
+        localHeader = localHeader,
+      };
+
+    public static Parser<ZIPSectionBody> zipSectionBody(ZIPSectionType type)
+    {
+      return type switch
+      {
+        ZIPSectionType.LOCAL_FILE_HEADER => zipLocalFile,
+        ZIPSectionType.CENTAL_DIR_ENTRY => zipCentralDirEntry,
+        _ => throw new NotImplementedException(),
+      };
+    }
+
 
     public static Parser<IEnumerable<ZIPSection>> zip =
       from sections in zipSection.Many()
