@@ -26,17 +26,15 @@ namespace Sprache.Binary
         /// <param name="position">The position where the error occured.</param>
         public ParseException(string message, Position position) : base(message)
         {
-            if (position == null) throw new ArgumentNullException(nameof(position));
-
-            Position = position;
+            Position = position ?? throw new ArgumentNullException(nameof(position));
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ParseException" /> class with a specified error message 
+        /// Initializes a new instance of the <see cref="ParseException" /> class with a specified error message
         /// and a reference to the inner exception that is the cause of this exception.
         /// </summary>
         /// <param name="message">The error message that explains the reason for the exception.</param>
-        /// <param name="innerException">The exception that is the cause of the current exception, 
+        /// <param name="innerException">The exception that is the cause of the current exception,
         /// or a null reference (Nothing in Visual Basic) if no inner exception is specified.</param>
         public ParseException(string message, Exception innerException) : base(message, innerException) { }
 
