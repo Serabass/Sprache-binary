@@ -53,7 +53,6 @@ namespace Sprache.Binary.Tests.ZIP
     public ushort extraFieldLength;
     public string fileName;
     public IEnumerable<byte> extraField;
-    public string comment;
   }
 
   public class ZIPSection
@@ -93,12 +92,19 @@ namespace Sprache.Binary.Tests.ZIP
     public string fileName;
     public IEnumerable<byte> extraField;
     public string fileComment;
-    public ZIPSection localHeader;
+    // public ZIPSection localHeader;
   }
 
   public class ZIPEndOfCentralDir : ZIPSectionBody
   {
-
+    public ushort diskOfEndOfCentralDir;
+    public ushort diskOfCentralDir;
+    public ushort numberOfCentralDirRecordsOnThisDisk;
+    public ushort numberOfCentralDirRecordsTotal;
+    public uint sizeOfCentralDir;
+    public uint offsetOfStartOfCentralDir;
+    public ushort commentLength;
+    public string comment;
   }
 
   public class ZIPLocalFileHeader
@@ -139,8 +145,6 @@ namespace Sprache.Binary.Tests.ZIP
       from extraFieldLength in Parse.UInt16
       from fileName in Parse.FixedString(fileNameLength)
       from extraField in Parse.AnyByte.Repeat(extraFieldLength)
-      from commentLength in Parse.UInt16
-      from comment in Parse.AnyByte.Repeat(commentLength)
       select new ZIPFileHeader
       {
         version = version,
@@ -154,7 +158,6 @@ namespace Sprache.Binary.Tests.ZIP
         extraFieldLength = extraFieldLength,
         fileName = fileName,
         extraField = extraField,
-        comment = Encoding.UTF8.GetString(comment.ToArray()),
       };
 
     public static Parser<ZIPFileHeader> zipLocalFileHeader =
@@ -189,7 +192,7 @@ namespace Sprache.Binary.Tests.ZIP
       from fileName in Parse.FixedString(fileNameLength)
       from extraField in Parse.AnyByte.Repeat(extraFieldLength)
       from fileComment in Parse.FixedString(fileCommentLength)
-      from localHeader in zipSection
+      // from localHeader in zipSection
       select new ZIPCentralDirEntry
       {
         versionMadeBy = versionMadeBy,
@@ -210,15 +213,36 @@ namespace Sprache.Binary.Tests.ZIP
         fileName = fileName,
         extraField = extraField,
         fileComment = fileComment,
-        localHeader = localHeader,
+        // localHeader = localHeader,
       };
 
+    public static Parser<ZIPEndOfCentralDir> zipEndOfCentralDir =
+      from diskNumber in Parse.UInt16
+      from diskNumberWithStartOfCentralDir in Parse.UInt16
+      from numberOfCentralDirRecordsOnThisDisk in Parse.UInt16
+      from numberOfCentralDirRecords in Parse.UInt16
+      from sizeOfCentralDir in Parse.UInt32
+      from offsetOfStartOfCentralDir in Parse.UInt32
+      from commentLength in Parse.UInt16
+      from comment in Parse.FixedString(commentLength)
+      select new ZIPEndOfCentralDir
+      {
+        diskOfEndOfCentralDir = diskNumber,
+        diskOfCentralDir = diskNumberWithStartOfCentralDir,
+        numberOfCentralDirRecordsOnThisDisk = numberOfCentralDirRecordsOnThisDisk,
+        numberOfCentralDirRecordsTotal = numberOfCentralDirRecords,
+        sizeOfCentralDir = sizeOfCentralDir,
+        offsetOfStartOfCentralDir = offsetOfStartOfCentralDir,
+        commentLength = commentLength,
+        comment = comment,
+      };
     public static Parser<ZIPSectionBody> zipSectionBody(ZIPSectionType type)
     {
       return type switch
       {
         ZIPSectionType.LOCAL_FILE_HEADER => zipLocalFile,
         ZIPSectionType.CENTAL_DIR_ENTRY => zipCentralDirEntry,
+        ZIPSectionType.END_OF_CENTRAL_DIR => zipEndOfCentralDir,
         _ => throw new NotImplementedException(),
       };
     }
