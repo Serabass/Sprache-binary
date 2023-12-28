@@ -18,7 +18,7 @@ namespace Sprache.Binary.Tests
             var hashString = BitConverter.ToString(hash).Replace("-", "").ToLowerInvariant();
             Assert.Equal("16c3bb924fae0e9de45107994716593c", hashString);
 
-            var result = ZIPParser.zipSection.Parse(stream);
+            var result = ZIPParser.zip.Parse(stream);
             Assert.Equal(2, 2);
         }
     }
