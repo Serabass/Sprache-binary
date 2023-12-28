@@ -1,7 +1,10 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text;
 
+// https://ide.kaitai.io/
 namespace Sprache.Binary.Tests.ZIP
 {
   public enum CompressionMethod : ushort
@@ -65,15 +68,7 @@ namespace Sprache.Binary.Tests.ZIP
 
     public IEnumerable<byte> GetBody()
     {
-      switch (header.compressionMethod)
-      {
-        case CompressionMethod.STORED:
-          return body;
-        case CompressionMethod.DEFLATED:
-          return body;
-        default:
-          return body;
-      }
+      throw new NotImplementedException();
     }
   }
 
@@ -95,7 +90,7 @@ namespace Sprache.Binary.Tests.ZIP
         {
           type = (ZIPSectionType)sectionType,
           header = new ZIPFileHeader(),
-          body = System.Array.Empty<byte>(),
+          body = Array.Empty<byte>(),
         })
       };
 
@@ -130,7 +125,7 @@ namespace Sprache.Binary.Tests.ZIP
         extraFieldLength = extraFieldLength,
         fileName = fileName,
         extraField = extraField,
-        comment = System.Text.Encoding.UTF8.GetString(comment.ToArray()),
+        comment = Encoding.UTF8.GetString(comment.ToArray()),
       };
 
     public static Parser<ZIPSectionBody> zipSectionBody =
