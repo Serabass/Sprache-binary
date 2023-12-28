@@ -68,6 +68,12 @@ namespace Sprache.Binary
                                                        select Encoding.UTF8.GetString(bytes.ToArray());
 
         /// <summary>
+        /// Parses an String from the input.
+        /// </summary>
+        public static Parser<string> FixedString(int length) => from bytes in AnyByte.Repeat(length)
+                                                                select Encoding.UTF8.GetString(bytes.ToArray());
+
+        /// <summary>
         /// Parses an ZString from the input.
         /// </summary>
         public static readonly Parser<string> StringZeroTerminated = from bytes in AnyByte.Until(Byte(0))

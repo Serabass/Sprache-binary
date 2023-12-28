@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Security.Cryptography;
 using Sprache.Binary.Tests.ZIP;
@@ -20,6 +21,7 @@ namespace Sprache.Binary.Tests
 
             var result = ZIPParser.zip.Parse(stream);
             Assert.Equal(2, 2);
+            Debugger.Break();
         }
     }
 }

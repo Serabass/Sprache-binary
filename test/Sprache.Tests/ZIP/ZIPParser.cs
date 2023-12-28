@@ -50,16 +50,17 @@ namespace Sprache.Binary.Tests.ZIP
     public int uncompressedSize;
     public ushort fileNameLength;
     public ushort extraFieldLength;
-    public IEnumerable<byte> fileName;
+    public string fileName;
     public IEnumerable<byte> extraField;
     public string comment;
   }
 
-  public struct ZIPSection
+  public abstract class ZIPSection
   {
     public ZIPSectionType type;
     public ZIPSectionBody body;
   }
+
   public struct ZIPSectionBody
   {
     public ZIPSectionType type;
@@ -72,6 +73,11 @@ namespace Sprache.Binary.Tests.ZIP
     }
   }
 
+  public class ZIPLocalFileHeader : ZIPSection
+  {
+    public ZIPFileHeader header;
+  }
+
   public class ZIPParser
   {
     public static Parser<string> zipMagic =
@@ -82,16 +88,15 @@ namespace Sprache.Binary.Tests.ZIP
     public static Parser<ZIPSection> zipSection =
       from Magic in zipMagic
       from sectionType in Parse.UInt16
-      from body in zipSectionBody.Optional()
-      select new ZIPSection
+      from body in zipSectionBody(sectionType)
+      select sectionType switch
       {
-        type = (ZIPSectionType)sectionType,
-        body = body.GetOrElse(new ZIPSectionBody
+        0x0403 => new ZIPLocalFileHeader
         {
-          type = (ZIPSectionType)sectionType,
-          header = new ZIPFileHeader(),
-          body = Array.Empty<byte>(),
-        })
+          type = ZIPSectionType.LOCAL_FILE_HEADER,
+          body = body,
+        },
+        _ => throw new NotImplementedException(),
       };
 
     private static Parser<CompressionMethod> compressionMethod =
@@ -108,7 +113,7 @@ namespace Sprache.Binary.Tests.ZIP
       from uncompressedSize in Parse.Int32
       from fileNameLength in Parse.UInt16
       from extraFieldLength in Parse.UInt16
-      from fileName in Parse.AnyByte.Repeat(fileNameLength)
+      from fileName in Parse.FixedString(fileNameLength)
       from extraField in Parse.AnyByte.Repeat(extraFieldLength)
       from commentLength in Parse.UInt16
       from comment in Parse.AnyByte.Repeat(commentLength)
@@ -128,7 +133,7 @@ namespace Sprache.Binary.Tests.ZIP
         comment = Encoding.UTF8.GetString(comment.ToArray()),
       };
 
-    public static Parser<ZIPSectionBody> zipSectionBody =
+    public static Parser<ZIPSectionBody> zipSectionBody(int type) =>
       from header in zipFileHeader
       from body in Parse.AnyByte.Repeat(header.compressedSize)
       select new ZIPSectionBody
