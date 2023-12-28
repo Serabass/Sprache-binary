@@ -6,19 +6,6 @@ namespace Sprache.Binary.Tests
 {
     public class StructTests
     {
-        [Obsolete("Use Parse instead")]
-        private MemoryStream BuildMemoryStream(Action<BinaryWriter> predicate)
-        {
-            var memoryStream = new MemoryStream();
-            var writer = new BinaryWriter(memoryStream);
-            {
-                predicate(writer);
-                writer.Flush();
-            }
-            memoryStream.Position = 0;
-            return memoryStream;
-        }
-
         struct RGB { public byte R, G, B; }
 
         [Fact]

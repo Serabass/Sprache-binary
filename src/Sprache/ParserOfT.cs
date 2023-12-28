@@ -97,6 +97,5 @@ namespace Sprache.Binary
         {
             return Parse(parser, new MemoryStream(input));
         }
-
     }
 }
