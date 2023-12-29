@@ -117,13 +117,17 @@ namespace Sprache.Binary.Tests.ZIP
       from header2 in Parse.Byte(0x4B) // K
       select "PK";
 
+    private static Parser<ZIPSectionType> zipSectionType =
+      from sectionType in Parse.UInt16
+      select (ZIPSectionType)sectionType;
+
     public static Parser<ZIPSection> zipSection =
       from Magic in zipMagic
-      from sectionType in Parse.UInt16
-      from body in zipSectionBody((ZIPSectionType)sectionType)
+      from sectionType in zipSectionType
+      from body in zipSectionBody(sectionType)
       select new ZIPSection
       {
-        type = (ZIPSectionType)sectionType,
+        type = sectionType,
         body = body,
       };
 
@@ -190,7 +194,7 @@ namespace Sprache.Binary.Tests.ZIP
       from fileName in Parse.FixedString(fileNameLength)
       from extraField in Parse.AnyByte.Repeat(extraFieldLength)
       from fileComment in Parse.FixedString(fileCommentLength)
-      // from localHeader in zipSection
+        // from localHeader in zipSection
       select new ZIPCentralDirEntry
       {
         versionMadeBy = versionMadeBy,
@@ -234,17 +238,15 @@ namespace Sprache.Binary.Tests.ZIP
         commentLength = commentLength,
         comment = comment,
       };
+
     public static Parser<ZIPSectionBody> zipSectionBody(ZIPSectionType type)
-    {
-      return type switch
+      => type switch
       {
         ZIPSectionType.LOCAL_FILE_HEADER => zipLocalFile,
         ZIPSectionType.CENTAL_DIR_ENTRY => zipCentralDirEntry,
         ZIPSectionType.END_OF_CENTRAL_DIR => zipEndOfCentralDir,
         _ => throw new NotImplementedException(),
       };
-    }
-
 
     public static Parser<IEnumerable<ZIPSection>> zip =
       from sections in zipSection.Many()
