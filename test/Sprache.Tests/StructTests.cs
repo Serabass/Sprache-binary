@@ -266,23 +266,23 @@ namespace Sprache.Binary.Tests
             memoryStream.Position = 0;
 
             Assert.Equal([
-                0xFF,
+                0xFF, // 255
 
-                0x39,
+                0x39, // 12345
                 0x30,
 
-                0xC7,
+                0xC7, // 55111111
                 0xED,
                 0x48,
                 0x03,
 
-                0x48,
+                0x48, // Hello
                 0x65,
                 0x6C,
                 0x6C,
                 0x6F,
 
-                0x00,
+                0x00, // 0
             ], memoryStream.ToArray());
 
             var parser = from b in Parse.AnyByte
