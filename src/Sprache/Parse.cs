@@ -19,8 +19,6 @@ namespace Sprache.Binary
         /// </summary>
         public const string LeftRecursionErrorMessage = "Left recursion in the grammar.";
 
-        public static Parser<byte> NUL = Byte(0x00);
-
         /// <summary>
         /// TryParse a single character matching 'predicate'
         /// </summary>
