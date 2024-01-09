@@ -31,14 +31,14 @@ namespace Sprache.Binary.Tests
             Assert.Equal(ZIPSectionType.LOCAL_FILE_HEADER, result.ToArray()[2].type);
             Assert.Equal("file.txt", ((ZIPLocalFile)result.ToArray()[2].body).header.fileName);
 
-            Assert.Equal(ZIPSectionType.CENTAL_DIR_ENTRY, result.ToArray()[3].type);
+            Assert.Equal(ZIPSectionType.CENTRAL_DIR_ENTRY, result.ToArray()[3].type);
             Assert.Equal("folder/", ((ZIPCentralDirEntry)result.ToArray()[3].body).fileName);
 
-            Assert.Equal(ZIPSectionType.LOCAL_FILE_HEADER, result.ToArray()[4].type);
-            Assert.Equal("folder/fileInFolder.txt", ((ZIPLocalFile)result.ToArray()[4].body).header.fileName);
+            Assert.Equal(ZIPSectionType.CENTRAL_DIR_ENTRY, result.ToArray()[4].type);
+            Assert.Equal("folder/fileInFolder.txt", ((ZIPCentralDirEntry)result.ToArray()[4].body).fileName);
 
-            Assert.Equal(ZIPSectionType.LOCAL_FILE_HEADER, result.ToArray()[5].type);
-            Assert.Equal("file.txt", ((ZIPLocalFile)result.ToArray()[5].body).header.fileName);
+            Assert.Equal(ZIPSectionType.CENTRAL_DIR_ENTRY, result.ToArray()[5].type);
+            Assert.Equal("file.txt", ((ZIPCentralDirEntry)result.ToArray()[5].body).fileName);
 
             Assert.Equal(ZIPSectionType.END_OF_CENTRAL_DIR, result.ToArray()[6].type);
             Debugger.Break();

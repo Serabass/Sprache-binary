@@ -32,7 +32,7 @@ namespace Sprache.Binary.Tests.ZIP
 
   public enum ZIPSectionType
   {
-    CENTAL_DIR_ENTRY = 0x0201,
+    CENTRAL_DIR_ENTRY = 0x0201,
     LOCAL_FILE_HEADER = 0x0403,
     DATA_DESCRIPTOR = 0x0807,
     END_OF_CENTRAL_DIR = 0x0605,
@@ -243,7 +243,7 @@ namespace Sprache.Binary.Tests.ZIP
       => type switch
       {
         ZIPSectionType.LOCAL_FILE_HEADER => zipLocalFile,
-        ZIPSectionType.CENTAL_DIR_ENTRY => zipCentralDirEntry,
+        ZIPSectionType.CENTRAL_DIR_ENTRY => zipCentralDirEntry,
         ZIPSectionType.END_OF_CENTRAL_DIR => zipEndOfCentralDir,
         _ => throw new NotImplementedException(),
       };
