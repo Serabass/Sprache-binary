@@ -20,6 +20,7 @@ namespace Sprache.Binary.Tests
             Assert.Equal(255, rgb.R);
             Assert.Equal(0, rgb.G);
             Assert.Equal(0, rgb.B);
+            Assert.Equal(rgb, new RGB { R = 255, G = 0, B = 0 });
         }
 
         [Fact]

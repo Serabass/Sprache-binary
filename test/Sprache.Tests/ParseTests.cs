@@ -64,7 +64,7 @@ namespace Sprache.Binary.Tests
         [Fact]
         public void Parser_OfAtLeastOneChar_DoesNotAcceptEmptyInput()
         {
-            AssertParser.Fails(Parse.Byte(0).AtLeastOnce(), Array.Empty<byte>());
+            AssertParser.Fails(Parse.Byte(0).AtLeastOnce(), []);
         }
 
         [Fact]
