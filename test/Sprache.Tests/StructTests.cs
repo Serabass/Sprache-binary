@@ -203,22 +203,18 @@ namespace Sprache.Binary.Tests
         [Fact]
         public void TestString()
         {
-            var memoryStream = new MemoryStream();
-            var writer = new BinaryWriter(memoryStream);
-            writer.Write(5);
-            writer.Write((byte)'H');
-            writer.Write((byte)'e');
-            writer.Write((byte)'l');
-            writer.Write((byte)'l');
-            writer.Write((byte)'o');
-            writer.Flush();
-
             var parser = from value in Parse.String
                          select value;
 
-            memoryStream.Position = 0;
-
-            var result = parser.Parse(memoryStream);
+            var result = parser.Parse((writer) =>
+            {
+                writer.Write(5);
+                writer.Write((byte)'H');
+                writer.Write((byte)'e');
+                writer.Write((byte)'l');
+                writer.Write((byte)'l');
+                writer.Write((byte)'o');
+            });
 
             Assert.Equal(5, result.Length);
             Assert.Equal("Hello", result);
@@ -227,20 +223,16 @@ namespace Sprache.Binary.Tests
         [Fact]
         public void TestStringZeroTerminated()
         {
-            var memoryStream = new MemoryStream();
-            var writer = new BinaryWriter(memoryStream);
-            writer.Write((byte)'H');
-            writer.Write((byte)'e');
-            writer.Write((byte)'l');
-            writer.Write((byte)'l');
-            writer.Write((byte)'o');
-            writer.Write((byte)0);
-            writer.Flush();
-
-            memoryStream.Position = 0;
-
             var parser = Parse.StringZeroTerminated;
-            var result = parser.Parse(memoryStream);
+            var result = parser.Parse((writer) =>
+            {
+                writer.Write((byte)'H');
+                writer.Write((byte)'e');
+                writer.Write((byte)'l');
+                writer.Write((byte)'l');
+                writer.Write((byte)'o');
+                writer.Write((byte)0);
+            });
 
             Assert.Equal("Hello", result);
         }

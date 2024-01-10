@@ -1,5 +1,7 @@
 {
   "cSpell.words": [
     "Sprache"
-  ]
+  ],
+  "editor.tabSize": 2,
+  "editor.indentSize": "tabSize",
 }

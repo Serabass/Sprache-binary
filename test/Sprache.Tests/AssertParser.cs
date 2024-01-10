@@ -32,7 +32,7 @@ namespace Sprache.Binary.Tests
             parser.TryParse(new MemoryStream(input.ToArray()))
                 .IfFailure(f =>
                 {
-                    Assert.True(false, $"Parsing of \"input\" failed unexpectedly. f");
+                    Assert.True(false, $"Parsing of \"{nameof(input)}\" failed unexpectedly. f");
                     return f;
                 })
                 .IfSuccess(s =>
@@ -47,7 +47,7 @@ namespace Sprache.Binary.Tests
             parser.TryParse(input)
                 .IfFailure(f =>
                 {
-                    Assert.True(false, $"Parsing of \"input\" failed unexpectedly. f");
+                    Assert.True(false, $"Parsing of \"{nameof(input)}\" failed unexpectedly. f");
                     return f;
                 })
                 .IfSuccess(s =>
