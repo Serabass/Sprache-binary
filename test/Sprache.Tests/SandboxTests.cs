@@ -32,17 +32,20 @@ namespace Sprache.Binary.Tests
             var rgbs = parser.Parse(memoryStream);
 
             Assert.Equal(3, rgbs.Count());
-            Assert.Equal(255, rgbs.ElementAt(0).R);
-            Assert.Equal(0, rgbs.ElementAt(0).G);
-            Assert.Equal(0, rgbs.ElementAt(0).B);
+            var rgb0 = rgbs.ElementAt(0);
+            Assert.Equal(255, rgb0.R);
+            Assert.Equal(0, rgb0.G);
+            Assert.Equal(0, rgb0.B);
 
-            Assert.Equal(0, rgbs.ElementAt(1).R);
-            Assert.Equal(255, rgbs.ElementAt(1).G);
-            Assert.Equal(0, rgbs.ElementAt(1).B);
+            var rgb1 = rgbs.ElementAt(1);
+            Assert.Equal(0, rgb1.R);
+            Assert.Equal(255, rgb1.G);
+            Assert.Equal(0, rgb1.B);
 
-            Assert.Equal(0, rgbs.ElementAt(2).R);
-            Assert.Equal(0, rgbs.ElementAt(2).G);
-            Assert.Equal(255, rgbs.ElementAt(2).B);
+            var rgb2 = rgbs.ElementAt(2);
+            Assert.Equal(0, rgb2.R);
+            Assert.Equal(0, rgb2.G);
+            Assert.Equal(255, rgb2.B);
         }
     }
 }
