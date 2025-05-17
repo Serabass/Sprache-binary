@@ -1,3 +1,3 @@
 ﻿using System.Runtime.CompilerServices;
 
-[assembly: InternalsVisibleTo("Sprache.Tests")]
+[assembly: InternalsVisibleTo("Sprache.Binary.Tests")]

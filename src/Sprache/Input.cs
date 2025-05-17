@@ -31,7 +31,7 @@ public class Input : IInput
   public Input(byte[] bytes)
     : this(new MemoryStream(bytes), 0) { }
 
-  internal Input(Stream source, int position)
+  public Input(Stream source, int position)
   {
     _source = source;
     _position = position;
@@ -39,7 +39,7 @@ public class Input : IInput
     Memos = new Dictionary<object, object>();
   }
 
-  internal Input(byte[] bytes, int position)
+  public Input(byte[] bytes, int position)
     : this(new MemoryStream(bytes), position) { }
 
   /// <summary>
