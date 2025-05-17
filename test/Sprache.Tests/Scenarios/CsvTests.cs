@@ -1,4 +1,3 @@
-﻿namespace Sprache.Binary.Tests.Scenarios
-{
-  public class CsvTests { }
-}
+﻿namespace Sprache.Binary.Tests.Scenarios;
+
+public class CsvTests { }

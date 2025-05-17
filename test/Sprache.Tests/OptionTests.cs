@@ -1,4 +1,3 @@
-namespace Sprache.Binary.Tests
-{
-  public class OptionTests { }
-}
+namespace Sprache.Binary.Tests;
+
+public class OptionTests { }
