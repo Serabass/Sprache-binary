@@ -1,6 +1,4 @@
 ﻿namespace Sprache.Binary.Tests
 {
-    public class ParseRefTests
-    {
-    }
+  public class ParseRefTests { }
 }
