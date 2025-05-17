@@ -1,10 +1,3 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
+﻿namespace TinyTemplates;
 
-namespace TinyTemplates
-{
-    public class Template
-    {
-    }
-}
+public class Template { }

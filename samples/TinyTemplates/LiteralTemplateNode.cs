@@ -2,21 +2,20 @@
 using System.Collections.Generic;
 using System.IO;
 
-namespace TinyTemplates
+namespace TinyTemplates;
+
+class LiteralTemplateNode : TemplateNode
 {
-    class LiteralTemplateNode : TemplateNode
-    {
-        readonly string _text;
+  readonly string _text;
 
-        public LiteralTemplateNode(string text)
-        {
-            if (text == null) throw new ArgumentNullException(nameof(text));
-            _text = text;
-        }
+  public LiteralTemplateNode(string text)
+  {
+    ArgumentNullException.ThrowIfNull(text);
+    _text = text;
+  }
 
-        public override void Execute(Stack<object> model, TextWriter output)
-        {
-            output.Write(_text);
-        }
-    }
+  public override void Execute(Stack<object> model, TextWriter output)
+  {
+    output.Write(_text);
+  }
 }

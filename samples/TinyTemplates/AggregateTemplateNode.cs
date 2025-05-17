@@ -1,21 +1,20 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 
-namespace TinyTemplates
+namespace TinyTemplates;
+
+class AggregateTemplateNode : TemplateNode
 {
-    class AggregateTemplateNode : TemplateNode
-    {
-        readonly IEnumerable<TemplateNode> _content;
+  readonly IEnumerable<TemplateNode> _content;
 
-        public AggregateTemplateNode(IEnumerable<TemplateNode> content)
-        {
-            _content = content;
-        }
+  public AggregateTemplateNode(IEnumerable<TemplateNode> content)
+  {
+    _content = content;
+  }
 
-        public override void Execute(Stack<object> model, TextWriter output)
-        {
-            foreach (var element in _content)
-                element.Execute(model, output);
-        }
-    }
+  public override void Execute(Stack<object> model, TextWriter output)
+  {
+    foreach (var element in _content)
+      element.Execute(model, output);
+  }
 }

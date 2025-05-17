@@ -1,20 +1,19 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 
-namespace TinyTemplates
+namespace TinyTemplates;
+
+class MemberAccessTemplateNode : TemplateNode
 {
-    class MemberAccessTemplateNode : TemplateNode
-    {
-        readonly TemplateMemberAccessor _member;
+  readonly TemplateMemberAccessor _member;
 
-        public MemberAccessTemplateNode(TemplateMemberAccessor member)
-        {
-            _member = member;
-        }
+  public MemberAccessTemplateNode(TemplateMemberAccessor member)
+  {
+    _member = member;
+  }
 
-        public override void Execute(Stack<object> model, TextWriter output)
-        {
-            output.Write(_member.GetMember(model));
-        }
-    }
+  public override void Execute(Stack<object> model, TextWriter output)
+  {
+    output.Write(_member.GetMember(model));
+  }
 }

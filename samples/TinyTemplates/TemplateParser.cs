@@ -1,8 +1,3 @@
-﻿using System.Linq;
+﻿namespace TinyTemplates;
 
-namespace TinyTemplates
-{
-    static class TemplateParser
-    {
-    }
-}
+static class TemplateParser { }

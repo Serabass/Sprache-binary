@@ -146,7 +146,7 @@ public class Input : IInput
   /// <param name="other">An object to compare with this object.</param>
   public bool Equals(IInput other)
   {
-    if (ReferenceEquals(null, other))
+    if (other is null)
       return false;
     if (ReferenceEquals(this, other))
       return true;

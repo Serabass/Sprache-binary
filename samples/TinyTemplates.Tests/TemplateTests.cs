@@ -1,9 +1,3 @@
-﻿using System;
-using Xunit;
+﻿namespace TinyTemplates.Tests;
 
-namespace TinyTemplates.Tests
-{
-    public class TemplateTests
-    {
-    }
-}
+public class TemplateTests { }
