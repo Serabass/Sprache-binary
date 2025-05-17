@@ -2,11 +2,11 @@
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
+    <RootNamespace>Sprache.Binary.Tests</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\Sprache\Sprache.csproj" />
-    <RootNamespace>Sprache.Binary.Tests</RootNamespace>
   </ItemGroup>
 
   <ItemGroup>
