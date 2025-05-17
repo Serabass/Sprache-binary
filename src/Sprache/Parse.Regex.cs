@@ -1,4 +1,3 @@
-﻿namespace Sprache.Binary
-{
-  partial class Parse { }
-}
+﻿namespace Sprache.Binary;
+
+partial class Parse { }
