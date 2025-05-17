@@ -1,9 +1,4 @@
-﻿using System;
-using System.Text.RegularExpressions;
-
-namespace Sprache.Binary
+﻿namespace Sprache.Binary
 {
-    partial class Parse
-    {
-    }
+  partial class Parse { }
 }
