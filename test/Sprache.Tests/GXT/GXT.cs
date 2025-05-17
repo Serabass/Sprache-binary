@@ -17,11 +17,7 @@ namespace Sprache.Binary.Tests.GXT
     private static Parser<GTXTable> Table =
       from name in String8
       from addr in Parse.Int32
-      select new GTXTable
-      {
-        Name = name.TrimEnd('\0'),
-        Address = addr
-      };
+      select new GTXTable { Name = name.TrimEnd('\0'), Address = addr };
 
     private static Parser<int> Tkeys =
       from tkey in Parse.ASCIIConstString("TKEY")
@@ -31,40 +27,24 @@ namespace Sprache.Binary.Tests.GXT
     public static Parser<TKEYEntry> TkeyEntry =
       from Offset in Parse.Int32
       from Name in String8
-      select new TKEYEntry
-      {
-        Offset = Offset,
-        Name = Name
-      };
+      select new TKEYEntry { Offset = Offset, Name = Name };
 
     private static Parser<TABLEntry> TablEntry =
       from name in String8
       from entryOffset in Parse.Int32
-      select new TABLEntry
-      {
-        Name = name,
-        Offset = entryOffset
-      };
+      select new TABLEntry { Name = name, Offset = entryOffset };
 
     public static Parser<TABLBlock> Tabl =
       from TABL in Parse.ASCIIConstString("TABL")
       from size in Parse.Int32
       from entries in TablEntry.Repeat(size / 12)
-      select new TABLBlock
-      {
-        Size = size,
-        Entries = entries.ToArray()
-      };
+      select new TABLBlock { Size = size, Entries = entries.ToArray() };
 
     public static Parser<TKEYBlock> Tkey =
       from TKEY in Parse.ASCIIConstString("TKEY")
       from size in Parse.Int32
       from entries in TkeyEntry.Repeat(size / 12)
-      select new TKEYBlock
-      {
-        Size = size,
-        Entries = entries.ToArray()
-      };
+      select new TKEYBlock { Size = size, Entries = entries.ToArray() };
 
     public static Parser<char> WChar =
       from b1 in Parse.AnyByte.Except(Parse.NUL)
@@ -80,20 +60,12 @@ namespace Sprache.Binary.Tests.GXT
       from TDAT in Parse.ASCIIConstString("TDAT")
       from size in Parse.Int32
       from strings in GXTString.Many()
-      select new TDATBlock
-      {
-        Size = size,
-        Strings = strings.ToArray()
-      };
+      select new TDATBlock { Size = size, Strings = strings.ToArray() };
 
     public static Parser<TKEYTableKey> TKeyTableKey =
       from Offset in Parse.Int32
       from Name in String8
-      select new TKEYTableKey
-      {
-        Offset = Offset,
-        Name = Name,
-      };
+      select new TKEYTableKey { Offset = Offset, Name = Name };
 
     public static Parser<TKEYTable> TKEyTable =
       from Name in String8
@@ -108,7 +80,7 @@ namespace Sprache.Binary.Tests.GXT
         Name = Name,
         Size = tkeySize,
         Keys = keys.ToArray(),
-        strings = strings.ToArray()
+        strings = strings.ToArray(),
       };
 
     public static Parser<GXTDocument> Document =
@@ -122,7 +94,7 @@ namespace Sprache.Binary.Tests.GXT
         TABL = TABL,
         TKEY = TKEY,
         TDAT = TDAT,
-        keys = keys.ToArray()
+        keys = keys.ToArray(),
       };
   }
 }

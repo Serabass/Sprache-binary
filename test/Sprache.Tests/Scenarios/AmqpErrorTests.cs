@@ -1,86 +1,76 @@
 ﻿// ReSharper disable InconsistentNaming
 
-using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
-using Xunit;
 
 namespace Sprache.Binary.Tests.Scenarios
 {
-    public class AmqpErrorTests
+  public class AmqpErrorTests { }
+
+  public class AmqpErrorItem { }
+
+  public class AmqpStringItem : AmqpErrorItem
+  {
+    public string Text { get; }
+
+    public AmqpStringItem(string text)
     {
+      Text = text;
     }
 
-    public class AmqpErrorItem
+    public override string ToString()
     {
+      return Text;
+    }
+  }
+
+  public class KeyValue : AmqpErrorItem
+  {
+    public Value Value { get; }
+    public string Key { get; }
+
+    public KeyValue(string key, Value value)
+    {
+      Value = value;
+      Key = key;
     }
 
-    public class AmqpStringItem : AmqpErrorItem
+    public override string ToString()
     {
-        public string Text { get; }
+      return string.Format("Key: '{0}', Value: '{1}'", Key, Value);
+    }
+  }
 
-        public AmqpStringItem(string text)
-        {
-            Text = text;
-        }
+  public class Value { }
 
-        public override string ToString()
-        {
-            return Text;
-        }
+  public class StringValue : Value
+  {
+    public string Text { get; }
+
+    public StringValue(string text)
+    {
+      Text = text;
     }
 
-    public class KeyValue : AmqpErrorItem
+    public override string ToString()
     {
-        public Value Value { get; }
-        public string Key { get; }
+      return Text;
+    }
+  }
 
-        public KeyValue(string key, Value value)
-        {
-            Value = value;
-            Key = key;
-        }
+  public class IntValue : Value
+  {
+    public int Value { get; }
 
-        public override string ToString()
-        {
-            return string.Format("Key: '{0}', Value: '{1}'", Key, Value);
-        }
+    public IntValue(int value)
+    {
+      Value = value;
     }
 
-    public class Value
+    public override string ToString()
     {
-        
+      return Value.ToString(CultureInfo.InvariantCulture);
     }
-
-    public class StringValue : Value
-    {
-        public string Text { get; }
-
-        public StringValue(string text)
-        {
-            Text = text;
-        }
-
-        public override string ToString()
-        {
-            return Text;
-        }
-    }
-
-    public class IntValue : Value
-    {
-        public int Value { get; }
-
-        public IntValue(int value)
-        {
-            Value = value;
-        }
-
-        public override string ToString()
-        {
-            return Value.ToString(CultureInfo.InvariantCulture);
-        }
-    }
+  }
 }
 
 // ReSharper restore InconsistentNaming

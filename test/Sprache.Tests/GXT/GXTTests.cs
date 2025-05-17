@@ -35,7 +35,10 @@ namespace Sprache.Binary.Tests.GXT
       Assert.Equal(78, doc.keys.Length);
       Assert.Equal(144, doc.keys[0].Size);
       Assert.Equal(12, doc.keys[0].strings.Length); // 144 / 12
-      Assert.Equal("~g~Drive the patients to Hospital CAREFULLY. Each bump reduces their chances of survival.", doc.keys[0].strings[0]);
+      Assert.Equal(
+        "~g~Drive the patients to Hospital CAREFULLY. Each bump reduces their chances of survival.",
+        doc.keys[0].strings[0]
+      );
     }
   }
 }

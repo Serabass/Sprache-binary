@@ -59,10 +59,7 @@ namespace Sprache.Binary.Tests.ZIP
     public ZIPSectionBody body;
   }
 
-  public abstract class ZIPSectionBody
-  {
-
-  }
+  public abstract class ZIPSectionBody { }
 
   public class ZIPLocalFile : ZIPSectionBody
   {
@@ -125,11 +122,7 @@ namespace Sprache.Binary.Tests.ZIP
       from Magic in zipMagic
       from sectionType in zipSectionType
       from body in zipSectionBody(sectionType)
-      select new ZIPSection
-      {
-        type = sectionType,
-        body = body,
-      };
+      select new ZIPSection { type = sectionType, body = body };
 
     private static Parser<CompressionMethod> compressionMethod =
       from compressionMethod in Parse.UInt16
@@ -169,11 +162,7 @@ namespace Sprache.Binary.Tests.ZIP
     public static Parser<ZIPLocalFile> zipLocalFile =
       from header in zipLocalFileHeader
       from body in Parse.AnyByte.Repeat(header.compressedSize)
-      select new ZIPLocalFile
-      {
-        header = header,
-        body = body,
-      };
+      select new ZIPLocalFile { header = header, body = body };
 
     public static Parser<ZIPCentralDirEntry> zipCentralDirEntry =
       from versionMadeBy in Parse.UInt16
@@ -194,7 +183,7 @@ namespace Sprache.Binary.Tests.ZIP
       from fileName in Parse.FixedString(fileNameLength)
       from extraField in Parse.AnyByte.Repeat(extraFieldLength)
       from fileComment in Parse.FixedString(fileCommentLength)
-        // from localHeader in zipSection
+      // from localHeader in zipSection
       select new ZIPCentralDirEntry
       {
         versionMadeBy = versionMadeBy,
@@ -239,8 +228,8 @@ namespace Sprache.Binary.Tests.ZIP
         comment = comment,
       };
 
-    public static Parser<ZIPSectionBody> zipSectionBody(ZIPSectionType type)
-      => type switch
+    public static Parser<ZIPSectionBody> zipSectionBody(ZIPSectionType type) =>
+      type switch
       {
         ZIPSectionType.LOCAL_FILE_HEADER => zipLocalFile,
         ZIPSectionType.CENTRAL_DIR_ENTRY => zipCentralDirEntry,

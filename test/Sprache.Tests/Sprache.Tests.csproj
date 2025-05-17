@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\Sprache\Sprache.csproj" />
+    <RootNamespace>Sprache.Binary.Tests</RootNamespace>
   </ItemGroup>
 
   <ItemGroup>

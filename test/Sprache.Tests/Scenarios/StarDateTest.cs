@@ -1,9 +1,3 @@
-﻿using Xunit;
-using System;
+﻿namespace Sprache.Binary.Tests.Scenarios;
 
-namespace Sprache.Binary.Tests.Scenarios
-{
-    public class StarDateTest
-    {
-    }
-}
+public class StarDateTest { }
